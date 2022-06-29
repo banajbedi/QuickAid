@@ -38,6 +38,8 @@ android {
         applicationId "com.example.email_password_login"
         minSdkVersion 21
         targetSdkVersion 32
+        multiDexEnabled true
+
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

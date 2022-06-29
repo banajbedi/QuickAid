@@ -1,14 +1,16 @@
 //import 'package:email_password_login/screens/home_screen.dart';
 //import 'package:email_password_login/screens/registration_screen.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+
 import 'package:email_password_login/screens/home_screen.dart';
 import 'package:email_password_login/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../model/user_model.dart';
-
+/**/
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -17,19 +19,58 @@ class LoginScreen extends StatefulWidget {
 }
 Future<UserModel> createUser(String mobile,String password) async
 {
+  var headers = {
 
-  var response = await http.post(Uri.https('shrouded-castle-52205.herokuapp.com', 'api/register/'),body:{
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('POST',
+      Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/register/'));
+  request.body = json.encode({
     "mobile":mobile,
     "password":password
   });
-  var data = response.body;
-  print(data);
-/*
-  if(response.statusCode==201) {
-    String responseString = response.body;
-    userModelFromJson(responseString);
+  request.headers.addAll(headers);
+  http.StreamedResponse response = await request.send();
+  //Token storage
+  // Create storage
+  final storage = new FlutterSecureStorage();
+  if (response.statusCode == 200) {
+    final responseJson = jsonDecode(await response.stream.bytesToString());
+    /*Map<String,dynamic> output=json.decode(jsonDecode);
+    print(output["Token"]);*/
+    // Write value
+    //await storage.write(key: "token", value: output["Token"]);
+    var token = UserModel.fromJson(responseJson).token;
+    print(token);
+
+    return UserModel.fromJson(json.decode(responseJson.body));
   }
-  else return null;*/   //-------> token part JWD
+  else {
+    print(response.statusCode);
+    throw Exception('Failed to Login');
+  }
+
+
+  /*var response = await http.post(Uri.https('shrouded-castle-52205.herokuapp.com', 'api/register/'),body:{
+    /*"mobile":mobile,
+    "password":password*/
+  //});
+  var data = response.body;
+
+  Map<String,dynamic> output=json.decode(data);
+  print(output["Token"]);
+  // Write value
+  await storage.write(key: "token", value: output["Token"]);
+
+  if (response.statusCode == 200) {
+    Map<String,dynamic> output=json.decode(data);
+    print(output["Token"]);
+    // Write value
+    await storage.write(key: "token", value: output["Token"]);
+    return UserModel.fromJson(response);
+  }*/
+   //-------> token part
+
 
 }
 
@@ -47,6 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
   // string for displaying the error Message
  // String? errorMessage;
 
+
+
+  get output => null;
   @override
   Widget build(BuildContext context) {
     //mobile number field
@@ -122,6 +166,8 @@ class _LoginScreenState extends State<LoginScreen> {
             String mobileNumberField = mobileNumberEditingController.text ;
             String passwordField=passwordEditingController.text;
             UserModel data=await createUser(mobileNumberField,passwordField);
+
+
             setState(() {
               _userModel=data;
             }
