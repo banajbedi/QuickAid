@@ -3,6 +3,8 @@
 //import 'package:email_password_login/screens/home_screen.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -16,18 +18,32 @@ class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
-Future<UserModel?> createUser(String mobile,String firstName,String lastName,String email,String password) async
+Future<UserModel?> createUser(String? mobile,String? firstName,String? lastName,String? email,String? password) async
 {
+  var headers={
+    'Content-Type':'application/json'
+  };
 
-  var response = await http.post(Uri.https('shrouded-castle-52205.herokuapp.com', 'api/register/'),body:{
-    "mobile":mobile,
-    "firstName":firstName,
-    "lastname":lastName,
-    "email":email,
-    "password":password
-  });
-  var data = response.body;
-  print(data);
+  var request = await http.Request('POST',Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/register/'));
+   request.body=json.encode({
+     "mobile":mobile,
+     "firstName":firstName,
+     "lastName":lastName,
+     "email":email,
+     "password":password
+   });
+   request.headers.addAll(headers);
+   http.StreamedResponse response=await request.send();
+
+   if(response.statusCode==200)
+     {
+       print(await response.stream.bytesToString());
+     }
+   else
+     {
+       print(response.reasonPhrase);
+     }
+
 /*
   if(response.statusCode==201) {
     String responseString = response.body;

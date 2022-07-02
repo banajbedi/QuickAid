@@ -2,7 +2,7 @@
 //import 'package:email_password_login/screens/registration_screen.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:email_password_login/screens/home_screen.dart';
 import 'package:email_password_login/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,7 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
+
 Future<UserModel> createUser(String mobile,String password) async
 {
   var headers = {
@@ -24,7 +25,7 @@ Future<UserModel> createUser(String mobile,String password) async
     'Content-Type': 'application/json'
   };
   var request = http.Request('POST',
-      Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/register/'));
+      Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/login/'));
   request.body = json.encode({
     "mobile":mobile,
     "password":password
@@ -36,45 +37,36 @@ Future<UserModel> createUser(String mobile,String password) async
   final storage = new FlutterSecureStorage();
   if (response.statusCode == 200) {
     final responseJson = jsonDecode(await response.stream.bytesToString());
-    /*Map<String,dynamic> output=json.decode(jsonDecode);
-    print(output["Token"]);*/
-    // Write value
-    //await storage.write(key: "token", value: output["Token"]);
-    var token = UserModel.fromJson(responseJson).token;
-    print(token);
 
+    responseJson.forEach((key, value1) async {
+      if (key == 'access') {
+        await storage.write(key: 'QuickAid_JWT', value: value1);
+      }
+    });
+
+
+    String? v2 = await storage.read(key: 'QuickAid_JWT');
+    print(responseJson.keys.toList()[1]);
+    //print(responseJson.access);
+    print(v2);
     return UserModel.fromJson(json.decode(responseJson.body));
   }
   else {
-    print(response.statusCode);
+
+    print(response.reasonPhrase);
     throw Exception('Failed to Login');
+
   }
 
 
-  /*var response = await http.post(Uri.https('shrouded-castle-52205.herokuapp.com', 'api/register/'),body:{
-    /*"mobile":mobile,
-    "password":password*/
-  //});
-  var data = response.body;
 
-  Map<String,dynamic> output=json.decode(data);
-  print(output["Token"]);
-  // Write value
-  await storage.write(key: "token", value: output["Token"]);
-
-  if (response.statusCode == 200) {
-    Map<String,dynamic> output=json.decode(data);
-    print(output["Token"]);
-    // Write value
-    await storage.write(key: "token", value: output["Token"]);
-    return UserModel.fromJson(response);
-  }*/
-   //-------> token part
 
 
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // Create storage
+  final storage = new FlutterSecureStorage();
   // form key
   final _formKey = GlobalKey<FormState>();
   late UserModel _userModel;
@@ -128,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
         controller: passwordEditingController,
 
         obscureText: true,
-        /*
+
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
           if (value!.isEmpty) {
@@ -137,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (!regex.hasMatch(value)) {
             return ("Enter Valid Password(Min. 6 Characters)");
           }
-        },*/
+        },
         onSaved: (value) {
           passwordEditingController.text = value!;
         },
@@ -241,4 +233,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+/*
+DATA FLOW
+ER ..
+CLASS ..
+COMPONENT
+MVC
+TIER
+GUI DESIGN snapshots
+COST ANALYSIS .. (acc to h/w)
+ACTIVITY ..
+*/
+
 
