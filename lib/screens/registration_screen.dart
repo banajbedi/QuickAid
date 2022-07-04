@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../model/user_model.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -73,33 +74,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     //mobile number field
-    var mobileNumberField = TextFormField(
-        autofocus: false,
-        controller: mobileNumberEditingController,
-        keyboardType: TextInputType.number,
-
-        validator: (value) {
-          RegExp regex = new RegExp(r'^.{10,}$');
-          if (value!.isEmpty) {
-            return ("Mobile number cannot be Empty");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Enter Valid Mobile number(Min. 10 Numbers)");
-          }
-          return null;
-        },
-        onSaved: (value) {
-          mobileNumberEditingController.text = value!;
-        },
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.phone_iphone),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Enter Your Mobile Number",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ));
+    var mobileNumberField = IntlPhoneField(
+      decoration: InputDecoration(
+        labelText: 'Enter Your Phone Number',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(),
+        ),
+      ),
+      initialCountryCode: 'IN',
+      onChanged: (phone) {
+        print(phone.completeNumber);
+      },
+      /*
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{10,}$');
+        if (value!.isEmpty) {
+          return ("Mobile number cannot be Empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Mobile number(Min. 10 Numbers)");
+        }
+        return null;
+      },*/
+      onSaved: (value) {
+        mobileNumberEditingController.text = value! as String;
+      },
+      textInputAction: TextInputAction.next,
+        );
     //first name field
     var firstNameField = TextFormField(
         autofocus: false,

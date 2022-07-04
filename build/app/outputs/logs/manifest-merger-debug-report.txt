@@ -8,6 +8,7 @@ MERGED from D:\flutter_login_signup\android\app\src\main\AndroidManifest.xml:1:1
 MERGED from [:firebase_auth] D:\flutter_login_signup\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:cloud_firestore] D:\flutter_login_signup\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [:fluttercontactpicker] D:\flutter_login_signup\build\fluttercontactpicker\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:fluttertoast] D:\flutter_login_signup\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_secure_storage] D:\flutter_login_signup\build\flutter_secure_storage\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-13:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ASUS\.gradle\caches\transforms-3\2d4264599ed3874ff5c4e08432c0aa03\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
@@ -152,6 +153,8 @@ MERGED from [:cloud_firestore] D:\flutter_login_signup\build\cloud_firestore\int
 MERGED from [:cloud_firestore] D:\flutter_login_signup\build\cloud_firestore\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:fluttercontactpicker] D:\flutter_login_signup\build\fluttercontactpicker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:fluttercontactpicker] D:\flutter_login_signup\build\fluttercontactpicker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:fluttertoast] D:\flutter_login_signup\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] D:\flutter_login_signup\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_secure_storage] D:\flutter_login_signup\build\flutter_secure_storage\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-11:53
@@ -282,6 +285,10 @@ ADDED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermed
 		ADDED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_core] D:\flutter_login_signup\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
+uses-permission#android.permission.READ_CONTACTS
+ADDED from [:fluttercontactpicker] D:\flutter_login_signup\build\fluttercontactpicker\intermediates\library_manifest\debug\AndroidManifest.xml:9:5-72
+	android:name
+		ADDED from [:fluttercontactpicker] D:\flutter_login_signup\build\fluttercontactpicker\intermediates\library_manifest\debug\AndroidManifest.xml:9:22-69
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ASUS\.gradle\caches\transforms-3\0f8dc16b334c9f8175d79d95eb92f545\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
 	android:required

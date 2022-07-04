@@ -2,6 +2,7 @@
 //import 'package:email_password_login/screens/registration_screen.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:email_password_login/screens/home_screen.dart';
 import 'package:email_password_login/screens/registration_screen.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../model/user_model.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 /**/
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -86,33 +88,33 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //mobile number field
-    var mobileNumberField = TextFormField(
-        autofocus: false,
-        controller: mobileNumberEditingController,
-        keyboardType: TextInputType.number,
-
-        validator: (value) {
-          RegExp regex = new RegExp(r'^.{10,}$');
-          if (value!.isEmpty) {
-            return ("Mobile number cannot be Empty");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Enter Valid Mobile number(Min. 10 Numbers)");
-          }
-          return null;
-        },
-        onSaved: (value) {
-          mobileNumberEditingController.text = value!;
-        },
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.phone_iphone),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Enter Your Mobile Number",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ));
+    var mobileNumberField = IntlPhoneField(
+      decoration: InputDecoration(
+        labelText: 'Enter Your Phone Number',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(),
+        ),
+      ),
+      initialCountryCode: 'IN',
+      onChanged: (phone) {
+        print(phone.completeNumber);
+      },
+      /*
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{10,}$');
+        if (value!.isEmpty) {
+          return ("Mobile number cannot be Empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Mobile number(Min. 10 Numbers)");
+        }
+        return null;
+      },*/
+      onSaved: (value) {
+        mobileNumberEditingController.text = value! as String;
+      },
+      textInputAction: TextInputAction.next,
+        );
 
     //password field
     final passwordField = TextFormField(
@@ -195,6 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           "assets/logo.png",
                           fit: BoxFit.contain,
                         )),
+
                     SizedBox(height: 45),
                     mobileNumberField,
                     SizedBox(height: 25),
