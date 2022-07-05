@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\navde\\StudioProjects\\data-training\\build\\sensors_plus\\intermediates\\res\\merged\\release\\drawable\\notification_tile_bg.xml",
+        "source": "C:\\Users\\navde\\.gradle\\caches\\transforms-2\\files-2.1\\b781330f13e915c5e33e9edfc19100b1\\core-1.6.0\\res\\drawable\\notification_tile_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\navde\\StudioProjects\\data-training\\build\\sensors_plus\\intermediates\\res\\merged\\release\\drawable\\notification_icon_background.xml",
+        "source": "C:\\Users\\navde\\.gradle\\caches\\transforms-2\\files-2.1\\b781330f13e915c5e33e9edfc19100b1\\core-1.6.0\\res\\drawable\\notification_icon_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\navde\\StudioProjects\\data-training\\build\\sensors_plus\\intermediates\\res\\merged\\release\\drawable\\notification_bg_low.xml",
+        "source": "C:\\Users\\navde\\.gradle\\caches\\transforms-2\\files-2.1\\b781330f13e915c5e33e9edfc19100b1\\core-1.6.0\\res\\drawable\\notification_bg_low.xml"
+    },
+    {
+        "merged": "C:\\Users\\navde\\StudioProjects\\data-training\\build\\sensors_plus\\intermediates\\res\\merged\\release\\drawable\\notification_bg.xml",
+        "source": "C:\\Users\\navde\\.gradle\\caches\\transforms-2\\files-2.1\\b781330f13e915c5e33e9edfc19100b1\\core-1.6.0\\res\\drawable\\notification_bg.xml"
+    }
+]

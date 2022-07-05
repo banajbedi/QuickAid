@@ -1,0 +1,7 @@
+#Tue Jul 05 22:54:50 IST 2022
+base.1=C\:\\Users\\navde\\StudioProjects\\data-training\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
+path.1=classes2.dex
+base.0=C\:\\Users\\navde\\StudioProjects\\data-training\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+path.0=classes.dex

@@ -1,0 +1,4 @@
+#Tue Jul 05 22:57:09 IST 2022
+base.0=C\:\\Users\\navde\\StudioProjects\\data-training\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

@@ -1,0 +1,40 @@
+name: speed_tracker
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sensors_plus:
+  velocity_x:
+  http:
+  geolocator:
+  cupertino_icons:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_svg:
+  shared_preferences:
+  flutter_launcher_icons: ^0.9.3
+  flutter_app_name:
+
+flutter_app_name:
+  name: "Data"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
