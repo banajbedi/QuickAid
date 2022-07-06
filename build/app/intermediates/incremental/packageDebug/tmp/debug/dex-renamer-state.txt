@@ -1,4 +1,4 @@
-#Wed Jul 06 13:30:37 IST 2022
+#Wed Jul 06 13:52:02 IST 2022
 base.0=C\:\\Users\\navde\\Downloads\\QuickAid-main\\QuickAid-main\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

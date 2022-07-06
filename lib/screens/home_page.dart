@@ -1,4 +1,5 @@
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
       print(response.statusCode);
       print(widget.token);
       //throw Exception('Failed to load Data');
+      logout();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
       UserData UD=new UserData(mobile: "", firstName: "", lastName: "", email: "", deviceID: "");
@@ -141,6 +143,10 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+  void logout() async{
+    final storage = new FlutterSecureStorage();
+    await storage.deleteAll();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,8 +189,9 @@ class _HomePageState extends State<HomePage> {
             child: ActionChip(
                 label: Text("Logout"),
                 onPressed: () {
+                  logout();
                   Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                                           context, MaterialPageRoute(builder: (context) => LoginScreen()));
                 }),
           ),
         ],
