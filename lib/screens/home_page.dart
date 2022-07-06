@@ -1,15 +1,15 @@
-import 'package:email_password_login/screens/profile_page.dart';
-import 'package:email_password_login/screens/login_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quickaid/screens/profile_page.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../model/profile_format.dart';
 import 'contact_page.dart';
+import 'login_screen.dart';
 
 class HomePage extends StatefulWidget {
   final String? token;

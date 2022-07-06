@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:email_password_login/screens/home_page.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:email_password_login/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:quickaid/screens/registration_screen.dart';
+import 'home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

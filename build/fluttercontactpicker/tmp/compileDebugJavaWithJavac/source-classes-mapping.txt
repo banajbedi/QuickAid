@@ -1,2 +1,0 @@
-com/example/fluttercontactpicker/BuildConfig.java
- com.example.fluttercontactpicker.BuildConfig

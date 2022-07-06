@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:email_password_login/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../model/contact_format.dart';
+import 'home_page.dart';
 
 class ContactPage extends StatefulWidget {
   final String? token;
@@ -44,7 +44,7 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   void showToast() => Fluttertoast.showToast(
-      msg: updated_successfully?"Successful":"Failed",
+      msg: updated_successfully?"Success!":"Failed!",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
@@ -115,7 +115,7 @@ class _ContactPageState extends State<ContactPage> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       print("Success!");
-      // updated_successfully = true;
+      updated_successfully = true;
       final responseJson = jsonDecode(await response.stream.bytesToString());
       // print(responseJson);
       // print(Item.fromJson(responseJson));
@@ -126,7 +126,7 @@ class _ContactPageState extends State<ContactPage> {
       _textFieldController4.clear();
       return 1;
     } else {
-      // updated_successfully = false;
+      updated_successfully = false;
       showToast();
       throw Exception('Failed to Update Data');
     }

@@ -1,4 +1,3 @@
-import 'package:email_password_login/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -8,6 +7,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import '../model/profile_format.dart';
+import 'home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String? token;
