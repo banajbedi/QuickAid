@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../model/contact_format.dart';
 import 'home_page.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ContactPage extends StatefulWidget {
   final String? token;
@@ -224,7 +225,7 @@ class _ContactPageState extends State<ContactPage> {
             }),
         title: Text(
               '\tEmergency Contacts',
-              style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),
         ),
       ),
 
@@ -232,7 +233,7 @@ class _ContactPageState extends State<ContactPage> {
           future: contacts,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return firstVisit?(const Center(child: CircularProgressIndicator())):(const Center(child: Text("ContactBook Empty!")));
+              return firstVisit?(Center(child: loadingIndicator())):( Center(child: Text("ContactBook Empty!",style: TextStyle(fontSize: 30),)));
             } else {
               firstVisit = false;
               // getData(snapshot.data);
@@ -502,5 +503,16 @@ class _ContactPageState extends State<ContactPage> {
         child: const Icon(Icons.add),
       ),
     );
+
   }
-}
+  Widget loadingIndicator() {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: SpinKitDoubleBounce(
+          color: Colors.black,
+          size: 100,
+        ),
+      ),
+    );
+}}

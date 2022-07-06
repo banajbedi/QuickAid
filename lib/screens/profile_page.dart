@@ -132,6 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     if (snapshot.connectionState ==
                                         ConnectionState.done) {
                                       if (snapshot.hasData) {
+                                        final formkey = GlobalKey<FormState>();
                                         final TextEditingController _controller_email = TextEditingController()..text= "${snapshot.data!.email}";
                                         final TextEditingController _controller_firstName = TextEditingController()..text= "${snapshot.data!.firstName}";
                                         final TextEditingController _controller_lastName = TextEditingController()..text= "${snapshot.data!.lastName}";
@@ -147,6 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             child: Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Form(
+                                                key: formkey,
                                                 child: Column(
                                                   children: <Widget>[
                                                     Visibility(
@@ -156,7 +158,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                                             updated_successfully
                                                                 ? "Updated Successfully!"
                                                                 : "")),
-                                                    TextField(
+                                                    TextFormField(
+                                                      validator: (value) {
+                                                        RegExp regex = new RegExp(r'^.{3,}$');
+                                                        if (value!.isEmpty) {
+                                                          return ("First Name cannot be Empty");
+                                                        }
+                                                        if (!regex.hasMatch(value)) {
+                                                          return ("Enter Valid name(Min. 3 Character)");
+                                                        }
+                                                        return null;
+                                                      },
+                                                      onSaved: (value) {
+                                                        _controller_firstName.text = value!;
+                                                      },
                                                       controller:
                                                           _controller_firstName,
                                                       decoration: InputDecoration(
@@ -170,7 +185,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    TextField(
+                                                    TextFormField(
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return ("Last Name cannot be Empty");
+                                                        }
+                                                        return null;
+                                                      },
+                                                      onSaved: (value) {
+                                                        _controller_lastName.text = value!;
+                                                      },
                                                       controller:
                                                           _controller_lastName,
                                                       decoration: InputDecoration(
@@ -184,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    TextField(
+                                                    TextFormField(
                                                       controller:
                                                           _controller_mobile,
                                                       decoration: InputDecoration(
@@ -198,7 +222,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    TextField(
+                                                    TextFormField(
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return ("Please Enter Your Email");
+                                                        }
+                                                        // reg expression for email validation
+                                                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                                            .hasMatch(value)) {
+                                                          return ("Please Enter a valid email");
+                                                        }
+                                                        return null;
+                                                      },
+                                                      onSaved: (value) {
+                                                        _controller_email.text = value!;
+                                                      },
                                                       controller:
                                                           _controller_email,
                                                       decoration: InputDecoration(
@@ -245,23 +283,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   ),
                                                   child: Text("Submit"),
                                                   onPressed: () async {
-                                                    int response = await updateUserData(
-                                                        _controller_firstName
-                                                            .text,
-                                                        _controller_lastName
-                                                            .text,
-                                                        _controller_email
-                                                            .text,
-                                                        _controller_mobile
-                                                            .text);
-                                                    // setState(() {
-                                                    //   // futureData = fetchUserData();
-                                                    //
-                                                    // });
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
-                                                    // Navigator.pushReplacement(
+if(formkey.currentState!.validate())
+    {int response = await updateUserData(
+    _controller_firstName
+        .text,
+    _controller_lastName
+        .text,
+    _controller_email
+        .text,
+    _controller_mobile
+        .text);
+    // setState(() {
+    //   // futureData = fetchUserData();
+    //
+    // });
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
+    }// Navigator.pushReplacement(
                                                     //     context, MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
                                                   }),
                                             )

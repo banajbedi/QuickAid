@@ -3,8 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:quickaid/screens/registration_screen.dart';
+import 'package:QuickAid/screens/registration_screen.dart';
 import 'home_page.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -91,17 +92,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        height: 200,
+                        height: 300,
                         child: Image.asset(
-                          "assets/logo.png",
+                          "assets/images/logo2.gif",
                           fit: BoxFit.contain,
                         )),
                     SizedBox(height: 45),
                     IntlPhoneField(
                       decoration: InputDecoration(
-                        labelText: 'Enter Your Phone Number',
+                        labelText: 'Enter Phone Number',
                         border: OutlineInputBorder(
-                        borderSide: BorderSide(),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                        //borderSide: BorderSide(style: ),
                         ),
                       ),
                       initialCountryCode: 'IN',
@@ -137,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.vpn_key),
                           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          hintText: "Enter your Password",
+                          hintText: "Enter Password",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -203,5 +205,18 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+
+  }
+  void checkPreviousSessionAndRedirect() async {
+    final storage = new FlutterSecureStorage();
+    String? v2 = await storage.read(key: 'QuickAid_JWT');
+
+    if(v2!=null){
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage(token: v2,)));
+    }
+  }
+  void initState() {
+    super.initState();
+    checkPreviousSessionAndRedirect();
   }
 }

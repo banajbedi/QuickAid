@@ -19,8 +19,8 @@
         android:name="android.app.Application"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="quickaid" >
+        android:icon="@mipmap/launcher_icon"
+        android:label="QuickAid" >
         <activity
             android:name="com.quickaid.quickaid.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

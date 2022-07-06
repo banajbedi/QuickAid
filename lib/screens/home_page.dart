@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:quickaid/screens/profile_page.dart';
+import 'package:QuickAid/screens/profile_page.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../model/profile_format.dart';
@@ -46,9 +46,14 @@ class _HomePageState extends State<HomePage> {
       return UserData.fromJson(responseJson);
     }
     else {
+
       print(response.statusCode);
       print(widget.token);
-      throw Exception('Failed to load Data');
+      //throw Exception('Failed to load Data');
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      UserData UD=new UserData(mobile: "", firstName: "", lastName: "", email: "", deviceID: "");
+      return UD;
     }
   }
 
@@ -149,10 +154,12 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         elevation: 0.3,
         backgroundColor: Colors.black,
-        title: Text(
-                '\t\t\t\t\t\t\t\t\t\tQuickAid',
-                style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),
-              ),
+        title: Center(
+          child: Text(
+                  'QuickAid',
+                  style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),
+                ),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return GestureDetector(
@@ -171,12 +178,15 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: [
-          ActionChip(
-              label: Text("Logout"),
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => LoginScreen()));
-              }),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: ActionChip(
+                label: Text("Logout"),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                }),
+          ),
         ],
       ),
       body:

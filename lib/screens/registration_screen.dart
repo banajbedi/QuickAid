@@ -59,9 +59,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     //mobile number field
     var mobileNumberField = IntlPhoneField(
       decoration: InputDecoration(
-        labelText: 'Enter Your Phone Number',
+        labelText: 'Enter Phone Number',
         border: OutlineInputBorder(
-          borderSide: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(10.0))
+          //borderSide: BorderSide(),
         ),
       ),
       initialCountryCode: 'IN',
@@ -225,6 +226,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               .size
               .width,
           onPressed: () async{
+            if(_formKey.currentState!.validate()){
             //signUp(emailEditingController.text, passwordEditingController.text);\
             String mobileNumberField = mobileNumberEditingController.text ;
             String firstNameField = firstNameEditingController.text ;
@@ -233,7 +235,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             String passwordField = passwordEditingController.text;
 
             UserModel? data = await createUser(mobileNumberField,firstNameField,secondNameField,emailField,passwordField);
-            Navigator.of(context).pop();
+            Navigator.of(context).pop();}
           },
           child: Text(
             "SignUp",
@@ -271,7 +273,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(
                         height: 180,
                         child: Image.asset(
-                          "assets/logo.png",
+                          "assets/images/logo.png",
                           fit: BoxFit.contain,
                         )),
                     SizedBox(height: 45),

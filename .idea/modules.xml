@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/quickaid.iml" filepath="$PROJECT_DIR$/quickaid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/QuickAid-main.iml" filepath="$PROJECT_DIR$/.idea/QuickAid-main.iml" />
     </modules>
   </component>
 </project>

@@ -13,19 +13,19 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\Banaj\Documents\Projects\quickaid\android\app\src\main\AndroidManifest.xml:3:5-66
-15-->C:\Users\Banaj\Documents\Projects\quickaid\android\app\src\main\AndroidManifest.xml:3:22-64
+15-->C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\android\app\src\main\AndroidManifest.xml:3:5-66
+15-->C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\android\app\src\main\AndroidManifest.xml:3:22-64
 16    <uses-permission android:name="android.permission.READ_CONTACTS" />
-16-->[:fluttercontactpicker] C:\Users\Banaj\Documents\Projects\quickaid\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-72
-16-->[:fluttercontactpicker] C:\Users\Banaj\Documents\Projects\quickaid\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-69
+16-->[:fluttercontactpicker] C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-72
+16-->[:fluttercontactpicker] C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-69
 17
 18    <application
 19        android:name="android.app.Application"
 20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-20-->[androidx.core:core:1.6.0] C:\Users\Banaj\.gradle\caches\transforms-3\acbce933e4b464a5224ed377a62db1f5\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+20-->[androidx.core:core:1.6.0] C:\Users\navde\.gradle\caches\transforms-3\acbce933e4b464a5224ed377a62db1f5\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
 21        android:debuggable="true"
-22        android:icon="@mipmap/ic_launcher"
-23        android:label="quickaid" >
+22        android:icon="@mipmap/launcher_icon"
+23        android:label="QuickAid" >
 24        <activity
 25            android:name="com.quickaid.quickaid.MainActivity"
 26            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -60,17 +60,17 @@
 55            android:value="2" />
 56
 57        <uses-library
-57-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+57-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
 58            android:name="androidx.window.extensions"
-58-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+58-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
 59            android:required="false" />
-59-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+59-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
 60        <uses-library
-60-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+60-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
 61            android:name="androidx.window.sidecar"
-61-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+61-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
 62            android:required="false" />
-62-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+62-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
 63    </application>
 64
 65</manifest>

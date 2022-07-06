@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quickaid/screens/login_screen.dart';
+import 'package:QuickAid/screens/login_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());
