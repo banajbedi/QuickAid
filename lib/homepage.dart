@@ -122,6 +122,27 @@ class _MyHomePageState extends State<MyHomePage> {
     time = DateFormat("HH:mm:ss").format(DateTime.now());
   }
 
+  getGyroAcc(){
+    _streamSubscriptions.add(
+      gyroscopeEvents.listen(
+            (GyroscopeEvent event) {
+          setState(() {
+            _gyroscopeValues = <double>[event.x, event.y, event.z];
+          });
+        },
+      ),
+    );
+    _streamSubscriptions.add(
+      userAccelerometerEvents.listen(
+            (UserAccelerometerEvent event) {
+          setState(() {
+            _userAccelerometerValues = <double>[event.x, event.y, event.z];
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var style_button = ButtonStyle(
@@ -592,14 +613,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  getData() {
+  getData() async {
     for (int count = 0; count < 4; count++) {
       if (count != 0) {
         sleep(Duration(milliseconds: 500));
       }
 
       //GETTING UPDATED DATA
-
+      await getGyroAcc();
       var gyroscope =
           _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
       var userAccelerometer = _userAccelerometerValues
@@ -607,7 +628,7 @@ class _MyHomePageState extends State<MyHomePage> {
           .toList();
 
       getDateTime();
-      getLocation();
+      await getLocation();
       var a1 = double.parse(userAccelerometer![0]);
       var a2 = double.parse(userAccelerometer[1]);
       var a3 = double.parse(userAccelerometer[2]);
@@ -629,11 +650,13 @@ class _MyHomePageState extends State<MyHomePage> {
       };
       //NEED TO PUSH DATA
       data_list.add(curernt_data);
+      if(await data_list.length==4){
+        //print(data_list);
+        //CALL postData
+        postData(data_list);
+        data_list.clear();
+      }
     }
-    print(data_list);
-    //CALL postData
-    postData(data_list);
-    data_list.clear();
   }
 
   postData(var data_list) async {
@@ -655,10 +678,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  int count_acc=0;
   void initState() {
     checkGps();
     deviceID = "${widget.deviceID_input}";
-    _streamSubscriptions.add(
+    if (count_acc==0){_streamSubscriptions.add(
       gyroscopeEvents.listen(
         (GyroscopeEvent event) {
           setState(() {
@@ -676,6 +700,11 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
+    var gyroscope =
+    _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    var userAccelerometer = _userAccelerometerValues
+        ?.map((double v) => v.toStringAsFixed(1))
+        .toList();}
     super.initState();
   }
 }
