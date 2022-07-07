@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -376,9 +378,15 @@ if(formkey.currentState!.validate())
                                         child: Center(
                                           child: Row(children: [
                                             Text("First Name : ",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: HeadStyle),
-                                            Text("${snapshot.data!.firstName}",
-                                                style: InfoStyle)
+                                            Flexible(
+                                              child: Container(
+                                                child: Text("${snapshot.data!.firstName}",
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: InfoStyle),
+                                              ),
+                                            )
                                           ]),
                                         ),
                                       ),
@@ -402,9 +410,14 @@ if(formkey.currentState!.validate())
                                         child: Center(
                                           child: Row(children: [
                                             Text("Last Name : ",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: HeadStyle),
-                                            Text("${snapshot.data!.lastName}",
-                                                style: InfoStyle)
+                                            Flexible(
+                                              child: Container(
+                                              child:Text("${snapshot.data!.lastName}",
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: InfoStyle)),
+                                            )
                                           ]),
                                         ),
                                       ),
@@ -427,9 +440,14 @@ if(formkey.currentState!.validate())
                                         padding: const EdgeInsets.all(8.0),
                                         child: Center(
                                           child: Row(children: [
-                                            Text("Mobile : ", style: HeadStyle),
-                                            Text("${snapshot.data!.mobile}",
-                                                style: InfoStyle)
+                                            Text("Mobile : ",overflow: TextOverflow.ellipsis, style: HeadStyle),
+                                            
+                                            Flexible(
+                                              child: Container(
+                                                child: Text("${snapshot.data!.mobile}",overflow: TextOverflow.ellipsis,
+                                                    style: InfoStyle),
+                                              ),
+                                            )
                                           ]),
                                         ),
                                       ),
@@ -453,10 +471,16 @@ if(formkey.currentState!.validate())
                                         child: Center(
                                           child: Row(children: [
                                             Text("Email Id : ",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: HeadStyle),
-                                            Text(
-                                              "${snapshot.data!.email}",
-                                              style: InfoStyle,
+                                            Flexible(
+                                              child: Container(
+                                                child: Text(
+                                                  "${snapshot.data!.email}",
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: InfoStyle,
+                                                ),
+                                              ),
                                             ),
                                           ]),
                                         ),
@@ -471,7 +495,7 @@ if(formkey.currentState!.validate())
                         child: Container(
                       margin: EdgeInsets.all(10),
                       child: Center(
-                          child: Text('${snapshot.error}', style: HeadStyle)),
+                          child: Text('${snapshot.error}', overflow: TextOverflow.ellipsis,style: HeadStyle)),
                     ));
                   }
                   // By default, show a loading spinner.
@@ -496,16 +520,6 @@ if(formkey.currentState!.validate())
           Positioned(top: 85, child: buildProfileImage())
         ]);
   }
-
-  // Widget buildCoverImage() => Container(
-  //     child: ClipRRect(
-  //         borderRadius: BorderRadius.only(
-  //             topLeft: Radius.circular(34), topRight: Radius.circular(34)),
-  //         child: Image.asset(
-  //           'assets/images/background.jpg',
-  //           width: double.infinity,
-  //           fit: BoxFit.fitHeight,
-  //         )));
   Widget buildProfileImage() => CircleAvatar(
         radius: profileHeight / 2,
         backgroundColor: Colors.white,
@@ -524,108 +538,4 @@ if(formkey.currentState!.validate())
 
 
   }
-
-  //COMMENT USER INFO
-  // Widget UserInfo() {
-  //   const TextStyle HeadStyle = TextStyle(
-  //       fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
-  //   const TextStyle InfoStyle = TextStyle(fontSize: 25, color: Colors.white);
-  //   return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-  //     const SizedBox(
-  //       height: 20,
-  //     ),
-  //     Center(
-  //         child: Card(
-  //       color: Colors.black54.withOpacity(0.4),
-  //       shadowColor: Colors.black54,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(34)),
-  //       child: Container(
-  //         // decoration: BoxDecoration(
-  //         //   gradient: LinearGradient(
-  //         //     colors: [Colors.redAccent,Colors.blue],
-  //         //     begin:Alignment.topRight,
-  //         //     end:Alignment.bottomCenter,
-  //         //   )
-  //         // ),
-  //         padding: EdgeInsets.all(6),
-  //         child: SizedBox(
-  //           width: 300,
-  //           height: 100,
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: Center(
-  //               child: Column(children: [
-  //                 Text("First Name :", style: HeadStyle),
-  //                 Text("rstName}", style: InfoStyle)
-  //               ]),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     )),
-  //     Center(
-  //         child: Card(
-  //       color: Colors.black54.withOpacity(0.4),
-  //       shadowColor: Colors.black54,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(34)),
-  //       elevation: 5,
-  //       child: SizedBox(
-  //         width: 300,
-  //         height: 100,
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Center(
-  //             child: Column(children: [
-  //               Text("Last Name :", style: HeadStyle),
-  //               Text("lastName}", style: InfoStyle)
-  //             ]),
-  //           ),
-  //         ),
-  //       ),
-  //     )),
-  //     Center(
-  //         child: Card(
-  //       color: Colors.black54.withOpacity(0.4),
-  //       shadowColor: Colors.black54,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(34)),
-  //       elevation: 5,
-  //       child: SizedBox(
-  //         width: 300,
-  //         height: 100,
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Center(
-  //             child: Column(children: [
-  //               Text("Mobile :", style: HeadStyle),
-  //               Text("mobile}", style: InfoStyle)
-  //             ]),
-  //           ),
-  //         ),
-  //       ),
-  //     )),
-  //     Center(
-  //         child: Card(
-  //       color: Colors.black54.withOpacity(0.4),
-  //       shadowColor: Colors.black54,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(34)),
-  //       elevation: 5,
-  //       child: SizedBox(
-  //         width: 300,
-  //         height: 100,
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Center(
-  //             child: Column(children: [
-  //               Text("Email Id :", style: HeadStyle),
-  //               Text(
-  //                 "mail}",
-  //                 style: InfoStyle,
-  //               ),
-  //             ]),
-  //           ),
-  //         ),
-  //       ),
-  //     ))
-  //   ]);
-  //}
 }

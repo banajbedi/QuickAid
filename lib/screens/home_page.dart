@@ -213,22 +213,32 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Center(
-                            child: Text(
-                              //Escape data here
-                              "Welcome ${snapshot.data!.firstName} ",
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
+                            child: Flexible(
+                              child: Container(
+                                child: Text(
+                                  //Escape data here
+                                  "Welcome ${snapshot.data!.firstName} ",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             )),
                         DeviceImage(),
                         DeviceStatusText(),
                         Center(
-                          child: Text(
-                            connection_status ? "${snapshot.data!.deviceID}" : "Not Connected",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: connection_status ? Colors.green : Colors.redAccent,
+                          child: Flexible(
+                            child: Container(
+                              child: Text(
+                                connection_status ? "${snapshot.data!.deviceID}" : "Not Connected",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: connection_status ? Colors.green : Colors.redAccent,
+                                ),
+                              ),
                             ),
                           ),
                         ),
