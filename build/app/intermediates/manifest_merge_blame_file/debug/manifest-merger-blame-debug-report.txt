@@ -13,64 +13,103 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\android\app\src\main\AndroidManifest.xml:3:5-66
-15-->C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\android\app\src\main\AndroidManifest.xml:3:22-64
-16    <uses-permission android:name="android.permission.READ_CONTACTS" />
-16-->[:fluttercontactpicker] C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-72
-16-->[:fluttercontactpicker] C:\Users\navde\Downloads\QuickAid-main\QuickAid-main\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-69
-17
-18    <application
-19        android:name="android.app.Application"
-20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-20-->[androidx.core:core:1.6.0] C:\Users\navde\.gradle\caches\transforms-3\acbce933e4b464a5224ed377a62db1f5\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
-21        android:debuggable="true"
-22        android:icon="@mipmap/launcher_icon"
-23        android:label="QuickAid" >
-24        <activity
-25            android:name="com.quickaid.quickaid.MainActivity"
-26            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-27            android:exported="true"
-28            android:hardwareAccelerated="true"
-29            android:launchMode="singleTop"
-30            android:theme="@style/LaunchTheme"
-31            android:windowSoftInputMode="adjustResize" >
-32
-33            <!--
-34                 Specifies an Android theme to apply to this Activity as soon as
-35                 the Android process has started. This theme is visible to the user
-36                 while the Flutter UI initializes. After that, this theme continues
-37                 to determine the Window background behind the Flutter UI.
-38            -->
-39            <meta-data
-40                android:name="io.flutter.embedding.android.NormalTheme"
-41                android:resource="@style/NormalTheme" />
-42
-43            <intent-filter>
-44                <action android:name="android.intent.action.MAIN" />
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-47            </intent-filter>
-48        </activity>
-49        <!--
-50             Don't delete the meta-data below.
-51             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-52        -->
-53        <meta-data
-54            android:name="flutterEmbedding"
-55            android:value="2" />
-56
-57        <uses-library
-57-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-58            android:name="androidx.window.extensions"
-58-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-59            android:required="false" />
-59-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-60        <uses-library
-60-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-61            android:name="androidx.window.sidecar"
-61-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-62            android:required="false" />
-62-->[androidx.window:window:1.0.0-beta04] C:\Users\navde\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-63    </application>
-64
-65</manifest>
+15-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:3:5-66
+15-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:3:22-64
+16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+16-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:5:5-79
+16-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:5:22-76
+17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+17-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:6:5-81
+17-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:6:22-78
+18    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+18-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:4:5-79
+18-->C:\Users\Banaj\Documents\GitHub\QuickAid\android\app\src\main\AndroidManifest.xml:4:22-76
+19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+19-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-77
+19-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-74
+20    <uses-permission android:name="android.permission.READ_CONTACTS" />
+20-->[:fluttercontactpicker] C:\Users\Banaj\Documents\GitHub\QuickAid\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-72
+20-->[:fluttercontactpicker] C:\Users\Banaj\Documents\GitHub\QuickAid\build\fluttercontactpicker\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-69
+21
+22    <application
+23        android:name="android.app.Application"
+24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+24-->[androidx.core:core:1.6.0] C:\Users\Banaj\.gradle\caches\transforms-3\acbce933e4b464a5224ed377a62db1f5\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+25        android:debuggable="true"
+26        android:icon="@mipmap/launcher_icon"
+27        android:label="QuickAid" >
+28        <activity
+29            android:name="com.quickaid.quickaid.MainActivity"
+30            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+31            android:exported="true"
+32            android:hardwareAccelerated="true"
+33            android:launchMode="singleTop"
+34            android:theme="@style/LaunchTheme"
+35            android:windowSoftInputMode="adjustResize" >
+36
+37            <!--
+38                 Specifies an Android theme to apply to this Activity as soon as
+39                 the Android process has started. This theme is visible to the user
+40                 while the Flutter UI initializes. After that, this theme continues
+41                 to determine the Window background behind the Flutter UI.
+42            -->
+43            <meta-data
+44                android:name="io.flutter.embedding.android.NormalTheme"
+45                android:resource="@style/NormalTheme" />
+46
+47            <intent-filter>
+48                <action android:name="android.intent.action.MAIN" />
+49
+50                <category android:name="android.intent.category.LAUNCHER" />
+51            </intent-filter>
+52        </activity>
+53        <!--
+54             Don't delete the meta-data below.
+55             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+56        -->
+57        <meta-data
+58            android:name="flutterEmbedding"
+59            android:value="2" />
+60
+61        <service
+61-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-16:56
+62            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+62-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-77
+63            android:enabled="true"
+63-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-35
+64            android:exported="false"
+64-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-37
+65            android:foregroundServiceType="location" />
+65-->[:geolocator_android] C:\Users\Banaj\Documents\GitHub\QuickAid\build\geolocator_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-53
+66
+67        <uses-library
+67-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+68            android:name="androidx.window.extensions"
+68-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+69            android:required="false" />
+69-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+70        <uses-library
+70-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+71            android:name="androidx.window.sidecar"
+71-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+72            android:required="false" />
+72-->[androidx.window:window:1.0.0-beta04] C:\Users\Banaj\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+73
+74        <activity
+74-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\1ea967b797818d9badf6aaa0240ca184\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+75            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+75-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\1ea967b797818d9badf6aaa0240ca184\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+76            android:exported="false"
+76-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\1ea967b797818d9badf6aaa0240ca184\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+77            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+77-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\1ea967b797818d9badf6aaa0240ca184\transformed\jetified-play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+78
+79        <meta-data
+79-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\4ef803ba34d31dcf48df123a27eb5d76\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+80            android:name="com.google.android.gms.version"
+80-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\4ef803ba34d31dcf48df123a27eb5d76\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+81            android:value="@integer/google_play_services_version" />
+81-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\Banaj\.gradle\caches\transforms-3\4ef803ba34d31dcf48df123a27eb5d76\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+82    </application>
+83
+84</manifest>

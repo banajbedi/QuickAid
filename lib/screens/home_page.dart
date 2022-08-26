@@ -11,6 +11,7 @@ import 'dart:convert';
 import '../model/profile_format.dart';
 import 'contact_page.dart';
 import 'login_screen.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   final String? token;
@@ -26,52 +27,160 @@ class _HomePageState extends State<HomePage> {
   bool updated_successfully = false;
   late Future<UserData> futureData;
 
+  bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+  String long = "", lat = "";
+  late StreamSubscription<Position> positionStream;
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+
+        getLocation();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+
+    setState(() {
+      //refresh the UI
+    });
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    // print(position.longitude);
+    // print(position.latitude);
+
+    long = position.longitude.toString();
+    lat = position.latitude.toString();
+
+    setState(() {
+      //refresh UI
+    });
+
+    LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high, //accuracy of the location data
+      distanceFilter: 100, //minimum distance (measured in meters) a
+      //device must move horizontally before an update event is generated;
+    );
+
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      print(position.longitude);
+      print(position.latitude);
+
+      //Final variables are stored here
+      long = position.longitude.toString();
+      lat = position.latitude.toString();
+
+      setState(() {
+        //refresh UI on update
+      });
+    });
+  }
+
+  Future<int> sendSOS(String? long, String? lat) async {
+    var headers = {
+      'Authorization': 'Bearer ${widget.token}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST',
+        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/sendSOS/'));
+    request.body = json.encode({"lat": "$lat", "long": "$long"});
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      updated_successfully = true;
+      sosToast();
+      final responseJson = jsonDecode(await response.stream.bytesToString());
+      return 1;
+    } else {
+      updated_successfully = false;
+      sosToast();
+      throw Exception('Failed to Update Data');
+    }
+  }
+
+  void sosToast() => Fluttertoast.showToast(
+      msg: updated_successfully
+          ? "SOS sent successfully."
+          : "SOS failed to sent.",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white,
+      textColor: Colors.black,
+      fontSize: 16.0);
+
   @override
   void initState() {
     super.initState();
     //UNCOMMENT
+    checkGps();
     futureData = fetchUserData();
   }
 
   Future<UserData> fetchUserData() async {
-    var headers= {
-      'Authorization':'Bearer ${widget.token}'
-    };
-    var request =http.Request('GET',Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
-    request.body ='''''';
+    var headers = {'Authorization': 'Bearer ${widget.token}'};
+    var request = http.Request('GET',
+        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    request.body = '''''';
     request.headers.addAll(headers);
-    http.StreamedResponse response= await request.send();
+    http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(await response.stream.bytesToString());
       return UserData.fromJson(responseJson);
-    }
-    else {
-
+    } else {
       print(response.statusCode);
       print(widget.token);
       //throw Exception('Failed to load Data');
       logout();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
-      UserData UD=new UserData(mobile: "", firstName: "", lastName: "", email: "", deviceID: "");
+      UserData UD = new UserData(
+          mobile: "", firstName: "", lastName: "", email: "", deviceID: "");
       return UD;
     }
   }
 
   void createdToast() => Fluttertoast.showToast(
-      msg: created_successfully?"Created Successfully":"Failed to Create",
+      msg: created_successfully ? "Created Successfully" : "Failed to Create",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.white,
       textColor: Colors.black,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 
   Future<int> createDeviceID(String new_deviceID) async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
@@ -88,24 +197,24 @@ class _HomePageState extends State<HomePage> {
       final responseJson = jsonDecode(await response.stream.bytesToString());
       return 1;
     } else {
-      created_successfully=false;
+      created_successfully = false;
       createdToast();
       throw Exception('Failed to Create Device');
-    }}
+    }
+  }
 
   void updateToast() => Fluttertoast.showToast(
-      msg: updated_successfully?"Updated Successfully":"Failed to update",
+      msg: updated_successfully ? "Updated Successfully" : "Failed to update",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.white,
       textColor: Colors.black,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 
   Future<int> updateDeviceID(String? new_deviceID) async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
@@ -137,13 +246,49 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (_selectedIndex == 1) {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Send SOS'),
+                content: const SingleChildScrollView(
+                    child: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: Text("Confirm to send SOS alert."),
+                )),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'Cancel');
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      int response = await sendSOS(long, lat);
+                      // refreshContacts(),
+                      Navigator.pop(context, 'Confirm');
+                      // Navigator.pop(context);
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
+                    },
+                    child: const Text('Confirm'),
+                  ),
+                ],
+              );
+            });
+      }
       if (_selectedIndex == 2) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => ContactPage(token: widget.token)));
       }
     });
   }
-  void logout() async{
+
+  void logout() async {
     final storage = new FlutterSecureStorage();
     await storage.deleteAll();
   }
@@ -162,16 +307,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.black,
         title: Center(
           child: Text(
-                  'QuickAid',
-                  style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),
-                ),
+            'QuickAid',
+            style: TextStyle(
+                fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
         leading: Builder(
           builder: (BuildContext context) {
             return GestureDetector(
                 onTap: () {
                   Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfilePage(token: widget.token)));
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
                 },
@@ -179,8 +328,7 @@ class _HomePageState extends State<HomePage> {
                   "assets/icons/profile.svg",
                   height: 50.0,
                   width: 50.0,
-                )
-            );
+                ));
           },
         ),
         actions: [
@@ -190,73 +338,77 @@ class _HomePageState extends State<HomePage> {
                 label: Text("Logout"),
                 onPressed: () {
                   logout();
-                  Navigator.pushReplacement(
-                                           context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 }),
           ),
         ],
       ),
       body:
-      //comment here
-      FutureBuilder<UserData>(
+          //comment here
+          FutureBuilder<UserData>(
         future: futureData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if(snapshot.data!.deviceID!= null){
-              connection_status=true;
+            if (snapshot.data!.deviceID != null) {
+              connection_status = true;
             }
             return
-              // till here
-              SafeArea(
-                child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Center(
-                            child: Flexible(
-                              child: Container(
-                                child: Text(
-                                  //Escape data here
-                                  "Welcome ${snapshot.data!.firstName} ",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            )),
-                        DeviceImage(),
-                        DeviceStatusText(),
-                        Center(
-                          child: Flexible(
-                            child: Container(
-                              child: Text(
-                                connection_status ? "${snapshot.data!.deviceID}" : "Not Connected",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: connection_status ? Colors.green : Colors.redAccent,
-                                ),
-                              ),
-                            ),
+                // till here
+                SafeArea(
+              child: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                      child: Flexible(
+                    child: Container(
+                      child: Text(
+                        //Escape data here
+                        "Welcome ${snapshot.data!.firstName} ",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )),
+                  DeviceImage(),
+                  DeviceStatusText(),
+                  Center(
+                    child: Flexible(
+                      child: Container(
+                        child: Text(
+                          connection_status
+                              ? "${snapshot.data!.deviceID}"
+                              : "Not Connected",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: connection_status
+                                ? Colors.green
+                                : Colors.redAccent,
                           ),
                         ),
-                        DeviceButton(connection_status)
-                      ],
-                    )),
-              );
-            } else if (snapshot.hasError) {
+                      ),
+                    ),
+                  ),
+                  DeviceButton(connection_status)
+                ],
+              )),
+            );
+          } else if (snapshot.hasError) {
             return SafeArea(
                 child: Container(
-                  margin: EdgeInsets.all(10),
-                  child: Center(
-                      child: Text('${snapshot.error}', style: HeadStyle)),
-                ));
+              margin: EdgeInsets.all(10),
+              child: Center(child: Text('${snapshot.error}', style: HeadStyle)),
+            ));
           }
           // By default, show a loading spinner.
           return loadingIndicator();
-        },),//till here
+        },
+      ), //till here
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -296,8 +448,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   //My Widgets
-  Widget DeviceImage(){
+  Widget DeviceImage() {
     return SvgPicture.asset(
       "assets/icons/device.svg",
       height: 250.0,
@@ -305,20 +458,22 @@ class _HomePageState extends State<HomePage> {
       allowDrawingOutsideViewBox: true,
     );
   }
-  Widget DeviceStatusText(){
+
+  Widget DeviceStatusText() {
     return Center(
       child: Text(
-        connection_status ?"Device Id :":"Device Status :",
+        connection_status ? "Device Id :" : "Device Status :",
         style: TextStyle(
-            fontSize: 35,
-            color: Colors.black,
-            fontWeight: FontWeight.bold),
+            fontSize: 35, color: Colors.black, fontWeight: FontWeight.bold),
       ),
-    );}
+    );
+  }
 
-  Widget DeviceButton(bool connection_status){
-    final TextEditingController _controller_deviceID_create = TextEditingController();
-    final TextEditingController _controller_deviceID_update = TextEditingController();
+  Widget DeviceButton(bool connection_status) {
+    final TextEditingController _controller_deviceID_create =
+        TextEditingController();
+    final TextEditingController _controller_deviceID_update =
+        TextEditingController();
     final backgroundColor = const Color(0xFFE7ECEF);
     Offset distance1 = isPressed1 ? Offset(10, 10) : Offset(28, 28);
     double blur1 = isPressed1 ? 5.0 : 30.0;
@@ -330,96 +485,97 @@ class _HomePageState extends State<HomePage> {
           child: Visibility(
             visible: !connection_status,
             child: Listener(
-              onPointerUp: (_) => setState((){ isPressed1 = false;
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return FutureBuilder<UserData>(
-                      future: futureData,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(32.0))),
-                              scrollable: true,
-                              title: Center(
-                                  child: Text('Create Device')),
-                              content: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Form(
-                                    child: Column(
-                                      children: <Widget>[
-                                        TextField(
-                                          //UNCOMMENT
-                                          controller:
-                                          _controller_deviceID_create,
+              onPointerUp: (_) => setState(() {
+                isPressed1 = false;
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return FutureBuilder<UserData>(
+                        future: futureData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(32.0))),
+                                scrollable: true,
+                                title: Center(child: Text('Create Device')),
+                                content: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Form(
+                                      child: Column(
+                                        children: <Widget>[
+                                          TextField(
+                                            //UNCOMMENT
+                                            controller:
+                                                _controller_deviceID_create,
 
-                                          decoration: InputDecoration(
-                                            labelText: 'Device ID',
-                                            icon: SvgPicture.asset(
-                                              "assets/icons/device.svg",
-                                              height: 30.0,
-                                              width: 30.0,
-                                              allowDrawingOutsideViewBox:
-                                              true,
+                                            decoration: InputDecoration(
+                                              labelText: 'Device ID',
+                                              icon: SvgPicture.asset(
+                                                "assets/icons/device.svg",
+                                                height: 30.0,
+                                                width: 30.0,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              actions: [
-                                Center(
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty
-                                            .all(Colors.black),
-                                        foregroundColor:
-                                        MaterialStateProperty
-                                            .all(Colors.white),
-                                        overlayColor:
-                                        MaterialStateProperty
-                                            .all(Colors.white
-                                            .withOpacity(
-                                            0.5)), // background (button) color
+                                actions: [
+                                  Center(
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          overlayColor: MaterialStateProperty
+                                              .all(Colors.white.withOpacity(
+                                                  0.5)), // background (button) color
 
-                                        shape: MaterialStateProperty
-                                            .all(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius
-                                                .circular(25),
+                                          shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                            ),
+                                            // foreground (text) color
                                           ),
-                                          // foreground (text) color
                                         ),
-                                      ),
-                                      child: Text("Submit"),
-                                      onPressed: () async {
-                                          int response = await createDeviceID(_controller_deviceID_create.text);
+                                        child: Text("Submit"),
+                                        onPressed: () async {
+                                          int response = await createDeviceID(
+                                              _controller_deviceID_create.text);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage(token: widget.token)));
-
-                                      }),
-                                )
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage(
+                                                          token:
+                                                              widget.token)));
+                                        }),
+                                  )
+                                ],
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
                           }
-                        }
 
-                        return loadingIndicator();
-                      },
-                    );
-                  });
+                          return loadingIndicator();
+                        },
+                      );
+                    });
               }),
               onPointerDown: (_) => setState(() => isPressed1 = true),
               child: AnimatedContainer(
@@ -487,96 +643,97 @@ class _HomePageState extends State<HomePage> {
             maintainAnimation: false,
             maintainState: false,
             child: Listener(
-              onPointerUp: (_) => setState((){ isPressed1 = false;
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return FutureBuilder<UserData>(
-                      future: futureData,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(32.0))),
-                              scrollable: true,
-                              title: Center(
-                                  child: Text('Update Device ID')),
-                              content: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Form(
-                                    child: Column(
-                                      children: <Widget>[
-                                        TextField(
-                                          //UNCOMMENT CONTROLLER
-                                          controller:
-                                          _controller_deviceID_update,
+              onPointerUp: (_) => setState(() {
+                isPressed1 = false;
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return FutureBuilder<UserData>(
+                        future: futureData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(32.0))),
+                                scrollable: true,
+                                title: Center(child: Text('Update Device ID')),
+                                content: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Form(
+                                      child: Column(
+                                        children: <Widget>[
+                                          TextField(
+                                            //UNCOMMENT CONTROLLER
+                                            controller:
+                                                _controller_deviceID_update,
 
-                                          decoration: InputDecoration(
-                                            labelText: 'Device ID',
-                                            icon: SvgPicture.asset(
-                                              "assets/icons/device.svg",
-                                              height: 30.0,
-                                              width: 30.0,
-                                              allowDrawingOutsideViewBox:
-                                              true,
+                                            decoration: InputDecoration(
+                                              labelText: 'Device ID',
+                                              icon: SvgPicture.asset(
+                                                "assets/icons/device.svg",
+                                                height: 30.0,
+                                                width: 30.0,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              actions: [
-                                Center(
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty
-                                            .all(Colors.black),
-                                        foregroundColor:
-                                        MaterialStateProperty
-                                            .all(Colors.white),
-                                        overlayColor:
-                                        MaterialStateProperty
-                                            .all(Colors.white
-                                            .withOpacity(
-                                            0.5)), // background (button) color
+                                actions: [
+                                  Center(
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          overlayColor: MaterialStateProperty
+                                              .all(Colors.white.withOpacity(
+                                                  0.5)), // background (button) color
 
-                                        shape: MaterialStateProperty
-                                            .all(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius
-                                                .circular(25),
+                                          shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                            ),
+                                            // foreground (text) color
                                           ),
-                                          // foreground (text) color
                                         ),
-                                      ),
-                                      child: Text("Submit"),
-                                      onPressed: () async {
-                                          int response = await updateDeviceID(_controller_deviceID_update.text);
+                                        child: Text("Submit"),
+                                        onPressed: () async {
+                                          int response = await updateDeviceID(
+                                              _controller_deviceID_update.text);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage(token: widget.token))
-                                        );
-                                      }),
-                                )
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage(
+                                                          token:
+                                                              widget.token)));
+                                        }),
+                                  )
+                                ],
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
                           }
-                        }
 
-                        return loadingIndicator();
-                      },
-                    );
-                  });
+                          return loadingIndicator();
+                        },
+                      );
+                    });
               }),
               onPointerDown: (_) => setState(() => isPressed1 = true),
               child: AnimatedContainer(
@@ -639,6 +796,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
   Widget loadingIndicator() {
     return Scaffold(
       resizeToAvoidBottomInset: false,
