@@ -1,4 +1,0 @@
-#Fri Aug 26 16:28:14 IST 2022
-base.0=C\:\\Users\\Banaj\\Documents\\GitHub\\QuickAid\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

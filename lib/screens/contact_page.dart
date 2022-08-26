@@ -45,14 +45,13 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   void showToast() => Fluttertoast.showToast(
-      msg: updated_successfully?"Success!":"Failed!",
+      msg: updated_successfully ? "Success!" : "Failed!",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.white,
       textColor: Colors.black,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 
   void getInitial(String name) {
     var nameParts = name.split(" ");
@@ -64,10 +63,11 @@ class _ContactPageState extends State<ContactPage> {
     }
   }
 
-  Future<int> addContact(String name, String mobileNumber, String relation, String email) async {
+  Future<int> addContact(
+      String name, String mobileNumber, String relation, String email) async {
     // dbHelper.add(PersonalEmergency(name, no, relation, email));
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
@@ -83,24 +83,25 @@ class _ContactPageState extends State<ContactPage> {
     if (response.statusCode == 200) {
       updated_successfully = true;
       // final responseJson = jsonDecode(await response.stream.bytesToString());
-    // print(responseJson);
-    // print(UserData.fromJson(responseJson).firstName);
-    showToast();
-    _textFieldController1.clear();
-    _textFieldController2.clear();
-    _textFieldController3.clear();
-    _textFieldController4.clear();
-    return 1;
+      // print(responseJson);
+      // print(UserData.fromJson(responseJson).firstName);
+      showToast();
+      _textFieldController1.clear();
+      _textFieldController2.clear();
+      _textFieldController3.clear();
+      _textFieldController4.clear();
+      return 1;
     } else {
-    updated_successfully = false;
-    showToast();
-    throw Exception('Failed to Update Data');
+      updated_successfully = false;
+      showToast();
+      throw Exception('Failed to Update Data');
     }
   }
 
-  Future<int> editContact(String newName, String mobileNumber, String newMobileNumber, String newRelation, String newEmail) async {
+  Future<int> editContact(String newName, String mobileNumber,
+      String newMobileNumber, String newRelation, String newEmail) async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('PUT',
@@ -133,9 +134,9 @@ class _ContactPageState extends State<ContactPage> {
     }
   }
 
-   Future<int> deleteContact(String mobileNumber) async {
+  Future<int> deleteContact(String mobileNumber) async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('DELETE',
@@ -145,7 +146,7 @@ class _ContactPageState extends State<ContactPage> {
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    
+
     if (response.statusCode == 200) {
       // updated_successfully = true;
       // final responseJson = jsonDecode(await response.stream.bytesToString());
@@ -163,7 +164,7 @@ class _ContactPageState extends State<ContactPage> {
 
   Future<List<Item>> getContacts() async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
     };
     var request = http.Request('GET',
         Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/contacts/'));
@@ -209,7 +210,6 @@ class _ContactPageState extends State<ContactPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,291 +220,371 @@ class _ContactPageState extends State<ContactPage> {
         leading: BackButton(
             // label: Text("Logout"),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomePage(token: widget.token)));
-            }),
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage(token: widget.token)));
+        }),
         title: Text(
-              '\tEmergency Contacts',
-              style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),
+          '\tEmergency Contacts',
+          style: TextStyle(
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-
       body: FutureBuilder(
           future: contacts,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return firstVisit?(Center(child: loadingIndicator())):( Center(child: Text("ContactBook Empty!",style: TextStyle(fontSize: 30),)));
+              return firstVisit
+                  ? (Center(child: loadingIndicator()))
+                  : (Center(
+                      child: Text(
+                      "ContactBook Empty!",
+                      style: TextStyle(fontSize: 30),
+                    )));
             } else {
               firstVisit = false;
               // getData(snapshot.data);
               return Scrollbar(
-                  child: emergencyContactsName.length==0?Center(child: Text("ContactBook Empty!")):ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: emergencyContactsName.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return SizedBox(
-                            height: 100,
-                            child: Card(
-                                elevation: 4,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: InkWell(
-                                      onTap: () => showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          _textFieldController1.text = emergencyContactsName[index];
-                                          _textFieldController2.text = emergencyContactsNo[index];
-                                          _textFieldController3.text = emergencyContactsRelation[index];
-                                          _textFieldController4.text = emergencyContactsEmail[index];
-                                          return AlertDialog(
-                                          title: const Text('Edit Contact Details'),
-                                          content: SingleChildScrollView(
-                                            child: SizedBox(
-                                                width: 350,
-                                                height: 350,
-                                                child: Column(
-                                                  children: [
-                                                    TextFormField(
-                                                      // controller: _textFieldController1,
-                                                      initialValue: emergencyContactsName[index],
-                                                      decoration: const InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        labelText: "Enter Contact Name",
-                                                      ),
-                                                      onChanged: (name) {
-                                                        // print(phone.completeNumber);
-                                                        _textFieldController1.text = name;
+                  child: emergencyContactsName.length == 0
+                      ? Center(child: Text("ContactBook Empty!"))
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: emergencyContactsName.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return SizedBox(
+                                height: 100,
+                                child: Card(
+                                    elevation: 4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: InkWell(
+                                          onTap: () => showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                _textFieldController1.text =
+                                                    emergencyContactsName[
+                                                        index];
+                                                _textFieldController2.text =
+                                                    emergencyContactsNo[index];
+                                                _textFieldController3.text =
+                                                    emergencyContactsRelation[
+                                                        index];
+                                                _textFieldController4.text =
+                                                    emergencyContactsEmail[
+                                                        index];
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Edit Contact Details'),
+                                                  content:
+                                                      SingleChildScrollView(
+                                                    child: SizedBox(
+                                                        width: 350,
+                                                        height: 350,
+                                                        child: Column(
+                                                          children: [
+                                                            TextFormField(
+                                                              // controller: _textFieldController1,
+                                                              initialValue:
+                                                                  emergencyContactsName[
+                                                                      index],
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                labelText:
+                                                                    "Enter Contact Name",
+                                                              ),
+                                                              onChanged:
+                                                                  (name) {
+                                                                // print(phone.completeNumber);
+                                                                _textFieldController1
+                                                                        .text =
+                                                                    name;
+                                                              },
+                                                              onSaved: (value) {
+                                                                _textFieldController1
+                                                                        .text =
+                                                                    value!;
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            IntlPhoneField(
+                                                              // controller: _textFieldController2,
+                                                              initialValue:
+                                                                  emergencyContactsNo[
+                                                                          index]
+                                                                      .substring(
+                                                                          3),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                labelText:
+                                                                    'Enter Your Phone Number',
+                                                                border:
+                                                                    OutlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(),
+                                                                ),
+                                                              ),
+                                                              initialCountryCode:
+                                                                  'IN',
+                                                              onChanged:
+                                                                  (phone) {
+                                                                // print(phone.completeNumber);
+                                                                _textFieldController2
+                                                                        .text =
+                                                                    phone
+                                                                        .completeNumber;
+                                                              },
+                                                              onSaved: (value) {
+                                                                _textFieldController2
+                                                                        .text =
+                                                                    value!
+                                                                        as String;
+                                                              },
+                                                              textInputAction:
+                                                                  TextInputAction
+                                                                      .next,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            TextFormField(
+                                                              // controller: _textFieldController3,
+                                                              initialValue:
+                                                                  emergencyContactsRelation[
+                                                                      index],
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                labelText:
+                                                                    "Enter Relation",
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            TextFormField(
+                                                              // controller: _textFieldController4,
+                                                              initialValue:
+                                                                  emergencyContactsEmail[
+                                                                      index],
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                labelText:
+                                                                    "Enter E-mail",
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        _textFieldController1
+                                                            .clear();
+                                                        _textFieldController2
+                                                            .clear();
+                                                        _textFieldController3
+                                                            .clear();
+                                                        _textFieldController4
+                                                            .clear();
+                                                        Navigator.pop(
+                                                            context, 'Cancel');
                                                       },
-                                                      onSaved: (value) {
-                                                        _textFieldController1.text = value!;
+                                                      child:
+                                                          const Text('Cancel'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        // print(_textFieldController1.text);
+                                                        // print(_textFieldController2.text);
+                                                        // print(_textFieldController3.text);
+                                                        // print(_textFieldController4.text);
+                                                        int response = await editContact(
+                                                            _textFieldController1
+                                                                .text,
+                                                            emergencyContactsNo[
+                                                                index],
+                                                            _textFieldController2
+                                                                .text,
+                                                            _textFieldController3
+                                                                .text,
+                                                            _textFieldController4
+                                                                .text);
+                                                        // refreshContacts(),
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    ContactPage(
+                                                                        token: widget
+                                                                            .token)));
+                                                        // Navigator.pushReplacement(
+                                                        //     context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
                                                       },
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    IntlPhoneField(
-                                                      // controller: _textFieldController2,
-                                                      initialValue: emergencyContactsNo[index].substring(3),
-                                                      decoration: InputDecoration(
-                                                        labelText: 'Enter Your Phone Number',
-                                                        border: OutlineInputBorder(
-                                                          borderSide: BorderSide(),
-                                                        ),
-                                                      ),
-                                                      initialCountryCode: 'IN',
-                                                      onChanged: (phone) {
-                                                        // print(phone.completeNumber);
-                                                        _textFieldController2.text = phone.completeNumber;
-                                                      },
-                                                      onSaved: (value) {
-                                                        _textFieldController2.text = value! as String;
-                                                      },
-                                                      textInputAction: TextInputAction.next,
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    TextFormField(
-                                                      // controller: _textFieldController3,
-                                                      initialValue: emergencyContactsRelation[index],
-                                                      decoration: const InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        labelText: "Enter Relation",
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    TextFormField(
-                                                      // controller: _textFieldController4,
-                                                      initialValue: emergencyContactsEmail[index],
-                                                      decoration: const InputDecoration(
-                                                        border: OutlineInputBorder(),
-                                                        labelText: "Enter E-mail",
-                                                      ),
+                                                      child: const Text('Edit'),
                                                     ),
                                                   ],
-                                                )),
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () {
-                                                _textFieldController1.clear();
-                                                _textFieldController2.clear();
-                                                _textFieldController3.clear();
-                                                _textFieldController4.clear();
-                                                Navigator.pop(context, 'Cancel');
-                                              },
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () async{
-                                                // print(_textFieldController1.text);
-                                                // print(_textFieldController2.text);
-                                                // print(_textFieldController3.text);
-                                                // print(_textFieldController4.text);
-                                                int response = await editContact(
-                                                    _textFieldController1.text, emergencyContactsNo[index], _textFieldController2.text, _textFieldController3.text, _textFieldController4.text);
-                                                // refreshContacts(),
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
-                                                // Navigator.pushReplacement(
-                                                //     context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
-                                              },
-                                              child: const Text('Edit'),
-                                            ),
-                                          ],
-                                        ); }
-                                      ),
-
-                                      child: ListTile(
-                                          title:
-                                          Text(
-                                            emergencyContactsName[index],
-                                            style: TextStyle(fontSize: 19),
-                                          ),
-                                          subtitle:
-                                          Text(
-                                            emergencyContactsNo[index],
-                                            style: TextStyle(fontSize: 13),
-                                          ),
-                                          dense: true,
-                                          trailing: Wrap(
-                                              children: <Widget>[
+                                                );
+                                              }),
+                                          child: ListTile(
+                                              title: Text(
+                                                emergencyContactsName[index],
+                                                style: TextStyle(fontSize: 19),
+                                              ),
+                                              subtitle: Text(
+                                                emergencyContactsNo[index],
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              dense: true,
+                                              trailing: Wrap(children: <Widget>[
                                                 IconButton(
                                                   icon: Icon(Icons.delete),
                                                   iconSize: 24.0,
                                                   color: Colors.red,
-                                                  onPressed: () async{
-                                                    int response = await deleteContact(emergencyContactsNo[index]);
+                                                  onPressed: () async {
+                                                    int response =
+                                                        await deleteContact(
+                                                            emergencyContactsNo[
+                                                                index]);
                                                     Navigator.pop(context);
-                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ContactPage(
+                                                                    token: widget
+                                                                        .token)));
                                                     // Navigator.pushReplacement(
                                                     //     context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
-                                                    },
+                                                  },
                                                 ),
-                                              ]
-                                          ),
-                                          leading: CircleAvatar(
-                                            radius: 25,
-                                              child: Text(
-                                                emergencyContactsInitials[index],
-                                                style: TextStyle(fontSize: 20),
-                                              )
-                                          )
-                                      )
-                                  ),
-                                )
-                            )
-                        );
-                      }
-                      )
-              );
+                                              ]),
+                                              leading: CircleAvatar(
+                                                  radius: 25,
+                                                  child: Text(
+                                                    emergencyContactsInitials[
+                                                        index],
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  )))),
+                                    )));
+                          }));
             }
           }),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) {
-            _textFieldController1.clear();
-            _textFieldController2.clear();
-            _textFieldController3.clear();
-            _textFieldController4.clear();
-            return AlertDialog(
-            title: const Text('Add Contact Details'),
-            content: SingleChildScrollView(
-              child: SizedBox(
-                  width: 350,
-                  height: 350,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _textFieldController1,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Enter Contact Name",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      IntlPhoneField(
-                        // controller: _textFieldController2,
-                        decoration: InputDecoration(
-                          labelText: 'Enter Your Phone Number',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
+            context: context,
+            builder: (BuildContext context) {
+              _textFieldController1.clear();
+              _textFieldController2.clear();
+              _textFieldController3.clear();
+              _textFieldController4.clear();
+              return AlertDialog(
+                title: const Text('Add Contact Details'),
+                content: SingleChildScrollView(
+                  child: SizedBox(
+                      width: 350,
+                      height: 350,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _textFieldController1,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Enter Contact Name",
+                            ),
                           ),
-                        ),
-                        initialCountryCode: 'IN',
-                        onChanged: (phone) {
-                          // print(phone.completeNumber);
-                          _textFieldController2.text = phone.completeNumber;
-                        },
-                        onSaved: (value) {
-                          _textFieldController2.text = value! as String;
-                        },
-                        textInputAction: TextInputAction.next,
-                      ),
-                      // TextFormField(
-                      //   controller: _textFieldController2,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //     labelText: "Enter Phone No.",
-                      //   ),
-                      // ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: _textFieldController3,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Enter Relation",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: _textFieldController4,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Enter E-mail",
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () async{
-                  int response = await addContact(
-                      _textFieldController1.text, _textFieldController2.text, _textFieldController3.text, _textFieldController4.text);
-                  // refreshContacts(),
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
-                // Navigator.pushReplacement(
-                //     context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
-                },
-                child: const Text('Add'),
-              ),
-            ],
-          );}
-        ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          IntlPhoneField(
+                            // controller: _textFieldController2,
+                            decoration: InputDecoration(
+                              labelText: 'Enter Your Phone Number',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              ),
+                            ),
+                            initialCountryCode: 'IN',
+                            onChanged: (phone) {
+                              // print(phone.completeNumber);
+                              _textFieldController2.text = phone.completeNumber;
+                            },
+                            onSaved: (value) {
+                              _textFieldController2.text = value! as String;
+                            },
+                            textInputAction: TextInputAction.next,
+                          ),
+                          // TextFormField(
+                          //   controller: _textFieldController2,
+                          //   decoration: const InputDecoration(
+                          //     border: OutlineInputBorder(),
+                          //     labelText: "Enter Phone No.",
+                          //   ),
+                          // ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _textFieldController3,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Enter Relation",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _textFieldController4,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Enter E-mail",
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      int response = await addContact(
+                          _textFieldController1.text,
+                          _textFieldController2.text,
+                          _textFieldController3.text,
+                          _textFieldController4.text);
+                      // refreshContacts(),
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ContactPage(token: widget.token)));
+                      // Navigator.pushReplacement(
+                      //     context, MaterialPageRoute(builder: (context) => ContactPage(token: widget.token)));
+                    },
+                    child: const Text('Add'),
+                  ),
+                ],
+              );
+            }),
         tooltip: 'Add Contacts',
         child: const Icon(Icons.add),
       ),
     );
-
   }
+
   Widget loadingIndicator() {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -515,4 +595,5 @@ class _ContactPageState extends State<ContactPage> {
         ),
       ),
     );
-}}
+  }
+}

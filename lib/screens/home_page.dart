@@ -113,11 +113,12 @@ class _HomePageState extends State<HomePage> {
     request.body = json.encode({"lat": "$lat", "long": "$long"});
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-
+    // print(response);
     if (response.statusCode == 200) {
       updated_successfully = true;
       sosToast();
       final responseJson = jsonDecode(await response.stream.bytesToString());
+      print(responseJson);
       return 1;
     } else {
       updated_successfully = false;
