@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "archive",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/archive-3.3.0",
+      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/archive-3.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -195,15 +195,15 @@
     },
     {
       "name": "geolocator",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-8.2.1",
+      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-9.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.15"
     },
     {
       "name": "geolocator_android",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_android-3.2.1",
+      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_android-4.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.15"
     },
     {
       "name": "geolocator_apple",
@@ -422,7 +422,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-07-28T13:40:50.948980Z",
+  "generated": "2022-08-26T09:05:04.769073Z",
   "generator": "pub",
   "generatorVersion": "2.17.5"
 }

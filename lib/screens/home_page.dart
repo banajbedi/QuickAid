@@ -11,7 +11,7 @@ import 'dart:convert';
 import '../model/profile_format.dart';
 import 'contact_page.dart';
 import 'login_screen.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   final String? token;
@@ -29,16 +29,16 @@ class _HomePageState extends State<HomePage> {
 
   bool servicestatus = false;
   bool haspermission = false;
-  late LocationPermission permission;
-  late Position position;
-  String long = "", lat = "";
-  late StreamSubscription<Position> positionStream;
+  // late LocationPermission permission;
+  // late Position position;
+  // String long = "", lat = "";
+  // late StreamSubscription<Position> positionStream;
 
   @override
   void initState() {
     super.initState();
     //UNCOMMENT
-    checkGps();
+    // checkGps();
     futureData = fetchUserData();
   }
 
@@ -134,76 +134,76 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    // print(position.longitude);
-    // print(position.latitude);
+  // getLocation() async {
+  //   position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   // print(position.longitude);
+  //   // print(position.latitude);
 
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
+  //   long = position.longitude.toString();
+  //   lat = position.latitude.toString();
 
-    setState(() {
-      //refresh UI
-    });
+  //   setState(() {
+  //     //refresh UI
+  //   });
 
-    LocationSettings locationSettings = AndroidSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
-      forceLocationManager: true,
-    );
+  //   LocationSettings locationSettings = AndroidSettings(
+  //     accuracy: LocationAccuracy.high, //accuracy of the location data
+  //     distanceFilter: 100, //minimum distance (measured in meters) a
+  //     //device must move horizontally before an update event is generated;
+  //     forceLocationManager: true,
+  //   );
 
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      print(position.longitude);
-      print(position.latitude);
+  //   StreamSubscription<Position> positionStream =
+  //       Geolocator.getPositionStream(locationSettings: locationSettings)
+  //           .listen((Position position) {
+  //     print(position.longitude);
+  //     print(position.latitude);
 
-      //Final variables are stored here
-      long = position.longitude.toString();
-      lat = position.latitude.toString();
+  //     //Final variables are stored here
+  //     long = position.longitude.toString();
+  //     lat = position.latitude.toString();
 
-      setState(() {
-        //refresh UI on update
-      });
-    });
-  }
+  //     setState(() {
+  //       //refresh UI on update
+  //     });
+  //   });
+  // }
 
-  checkGps() async {
-    permission = await Geolocator.checkPermission();
-    servicestatus = await Geolocator.isLocationServiceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
+  // checkGps() async {
+  //   permission = await Geolocator.checkPermission();
+  //   servicestatus = await Geolocator.isLocationServiceEnabled();
+  //   if (servicestatus) {
+  //     permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
-        } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
+  //     if (permission == LocationPermission.denied) {
+  //       permission = await Geolocator.requestPermission();
+  //       if (permission == LocationPermission.denied) {
+  //         print('Location permissions are denied');
+  //       } else if (permission == LocationPermission.deniedForever) {
+  //         print("'Location permissions are permanently denied");
+  //       } else {
+  //         haspermission = true;
+  //       }
+  //     } else {
+  //       haspermission = true;
+  //     }
 
-      if (haspermission) {
-        setState(() {
-          //refresh the UI
-        });
-        print("Enabled.");
-        getLocation();
-      }
-    } else {
-      print("GPS Service is not enabled, turn on GPS location");
-    }
+  //     if (haspermission) {
+  //       setState(() {
+  //         //refresh the UI
+  //       });
+  //       print("Enabled.");
+  //       getLocation();
+  //     }
+  //   } else {
+  //     print("GPS Service is not enabled, turn on GPS location");
+  //   }
 
-    setState(() {
-      //refresh the UI
-    });
-  }
+  //   setState(() {
+  //     //refresh the UI
+  //   });
+  // }
 
   //My Variables
   int _selectedIndex = 0;
