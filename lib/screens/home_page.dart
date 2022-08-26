@@ -366,7 +366,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       child: Text(
                         //Escape data here
-                        "Welcome ${snapshot.data!.firstName} ",
+                        "Welcome ${snapshot.data!.firstName}!",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 30,
