@@ -1,3 +1,4 @@
+import 'package:QuickAid/screens/ml_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       //refresh UI
     });
 
-    LocationSettings locationSettings = LocationSettings(
+    LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high, //accuracy of the location data
       distanceFilter: 100, //minimum distance (measured in meters) a
       //device must move horizontally before an update event is generated;
@@ -158,8 +159,6 @@ class _HomePageState extends State<HomePage> {
       final responseJson = jsonDecode(await response.stream.bytesToString());
       return UserData.fromJson(responseJson);
     } else {
-      print(response.statusCode);
-      print(widget.token);
       //throw Exception('Failed to load Data');
       logout();
       Navigator.pushReplacement(
@@ -284,6 +283,12 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
+                builder: (context) => MLPage(token: widget.token)));
+      }
+      if (_selectedIndex == 3) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
                 builder: (context) => ContactPage(token: widget.token)));
       }
     });
@@ -306,7 +311,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         elevation: 0.3,
         backgroundColor: Colors.black,
-        title: Center(
+        title: const Center(
           child: Text(
             'QuickAid',
             style: TextStyle(
@@ -336,7 +341,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: ActionChip(
-                label: Text("Logout"),
+                label: const Text("Logout"),
                 onPressed: () {
                   logout();
                   Navigator.pushReplacement(context,
@@ -368,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                         //Escape data here
                         "Welcome ${snapshot.data!.firstName}!",
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 30,
                             color: Colors.black54,
                             fontWeight: FontWeight.bold),
@@ -411,13 +416,15 @@ class _HomePageState extends State<HomePage> {
         },
       ), //till here
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/home.svg",
               height: 30.0,
               width: 30.0,
-              allowDrawingOutsideViewBox: true,
+              allowDrawingOutsideViewBox: false,
             ),
             label: 'Home',
             backgroundColor: Colors.white,
@@ -425,19 +432,25 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/sos2.svg",
-              height: 40.0,
-              width: 40.0,
-              allowDrawingOutsideViewBox: true,
+              height: 30.0,
+              width: 30.0,
+              allowDrawingOutsideViewBox: false,
             ),
             label: 'SOS',
             backgroundColor: Colors.white,
           ),
+          const BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage("assets/icons/tf.svg"),
+              ),
+              label: 'ML',
+              backgroundColor: Colors.white),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/contacts.svg",
-              height: 40.0,
-              width: 40.0,
-              allowDrawingOutsideViewBox: true,
+              height: 30.0,
+              width: 30.0,
+              allowDrawingOutsideViewBox: false,
             ),
             label: 'Contacts',
             backgroundColor: Colors.white,
