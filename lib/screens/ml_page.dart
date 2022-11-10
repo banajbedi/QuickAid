@@ -12,6 +12,8 @@ class MLPage extends StatefulWidget {
 }
 
 class _MLPageState extends State<MLPage> {
+  bool mlRunning = false;
+
   @override
   void initState() {}
 
@@ -36,7 +38,7 @@ class _MLPageState extends State<MLPage> {
       ),
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(80),
           color: Colors.grey[800],
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +48,29 @@ class _MLPageState extends State<MLPage> {
                 height: 200,
                 width: 200,
                 child: Image.asset('assets/logo.png'),
-              )
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+
+              if (!mlRunning)
+                ElevatedButton(
+                  onPressed: () {
+                    mlRunning = true;
+                    setState(() {});
+                  },
+                  child: const Text("START QuickAid"),
+                  style: ElevatedButton.styleFrom(primary: Colors.teal),
+                )
+              else
+                ElevatedButton(
+                  onPressed: () {
+                    mlRunning = false;
+                    setState(() {});
+                  },
+                  child: const Text("STOP QuickAid"),
+                  style: ElevatedButton.styleFrom(primary: Colors.teal),
+                )
             ],
           ),
         ),
