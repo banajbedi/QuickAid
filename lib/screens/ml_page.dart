@@ -54,23 +54,50 @@ class _MLPageState extends State<MLPage> {
               ),
 
               if (!mlRunning)
-                ElevatedButton(
-                  onPressed: () {
-                    mlRunning = true;
-                    setState(() {});
-                  },
-                  child: const Text("START QuickAid"),
-                  style: ElevatedButton.styleFrom(primary: Colors.teal),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        mlRunning = true;
+                        Fluttertoast.showToast(
+                            msg: "SUCCESS!\nML model service STARTED.",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black,
+                            fontSize: 16.0);
+                        setState(() {});
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.teal),
+                      child: const Text("START QuickAid"),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
                 )
               else
-                ElevatedButton(
-                  onPressed: () {
-                    mlRunning = false;
-                    setState(() {});
-                  },
-                  child: const Text("STOP QuickAid"),
-                  style: ElevatedButton.styleFrom(primary: Colors.teal),
-                )
+                Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        mlRunning = false;
+                        Fluttertoast.showToast(
+                            msg: "ML model service STOPPED.",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black,
+                            fontSize: 16.0);
+                        setState(() {});
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.teal),
+                      child: const Text("STOP QuickAid"),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

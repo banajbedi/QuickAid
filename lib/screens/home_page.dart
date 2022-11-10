@@ -161,8 +161,8 @@ class _HomePageState extends State<HomePage> {
     } else {
       //throw Exception('Failed to load Data');
       logout();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
       UserData UD = new UserData(
           mobile: "", firstName: "", lastName: "", email: "", deviceID: "");
       return UD;
@@ -344,8 +344,10 @@ class _HomePageState extends State<HomePage> {
                 label: const Text("Logout"),
                 onPressed: () {
                   logout();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 }),
           ),
         ],
@@ -407,7 +409,7 @@ class _HomePageState extends State<HomePage> {
           } else if (snapshot.hasError) {
             return SafeArea(
                 child: Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: Center(child: Text('${snapshot.error}', style: HeadStyle)),
             ));
           }
@@ -477,7 +479,7 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Text(
         connection_status ? "Device Id :" : "Device Status :",
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 35, color: Colors.black, fontWeight: FontWeight.bold),
       ),
     );
@@ -489,9 +491,9 @@ class _HomePageState extends State<HomePage> {
     final TextEditingController _controller_deviceID_update =
         TextEditingController();
     final backgroundColor = const Color(0xFFE7ECEF);
-    Offset distance1 = isPressed1 ? Offset(10, 10) : Offset(28, 28);
+    Offset distance1 = isPressed1 ? const Offset(10, 10) : const Offset(28, 28);
     double blur1 = isPressed1 ? 5.0 : 30.0;
-    Offset distance2 = isPressed2 ? Offset(10, 10) : Offset(28, 28);
+    Offset distance2 = isPressed2 ? const Offset(10, 10) : const Offset(28, 28);
     double blur2 = isPressed2 ? 5.0 : 30.0;
     return Stack(
       children: [
@@ -511,11 +513,12 @@ class _HomePageState extends State<HomePage> {
                               ConnectionState.done) {
                             if (snapshot.hasData) {
                               return AlertDialog(
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(32.0))),
                                 scrollable: true,
-                                title: Center(child: Text('Create Device')),
+                                title:
+                                    const Center(child: Text('Create Device')),
                                 content: SingleChildScrollView(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -565,7 +568,7 @@ class _HomePageState extends State<HomePage> {
                                             // foreground (text) color
                                           ),
                                         ),
-                                        child: Text("Submit"),
+                                        child: const Text("Submit"),
                                         onPressed: () async {
                                           int response = await createDeviceID(
                                               _controller_deviceID_create.text);
@@ -602,27 +605,10 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   width: 220,
                   height: 120,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/add.svg",
-                          height: 50.0,
-                          width: 50.0,
-                          //allowDrawingOutsideViewBox: true,
-                        ),
-                        Text(
-                          'Add Device',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ]),
                   decoration: BoxDecoration(
                     color: backgroundColor,
                     borderRadius: BorderRadius.circular(21),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
@@ -632,19 +618,36 @@ class _HomePageState extends State<HomePage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xffffffff),
+                        color: const Color(0xffffffff),
                         offset: distance1,
                         blurRadius: blur1,
                         inset: isPressed1,
                       ),
                       BoxShadow(
-                        color: Color(0xffcbcaca),
+                        color: const Color(0xffcbcaca),
                         offset: distance1,
                         blurRadius: blur1,
                         inset: isPressed1,
                       ),
                     ],
                   ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/icons/add.svg",
+                          height: 50.0,
+                          width: 50.0,
+                          //allowDrawingOutsideViewBox: true,
+                        ),
+                        const Text(
+                          'Add Device',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ]),
                 ),
               ),
             ),
@@ -669,11 +672,12 @@ class _HomePageState extends State<HomePage> {
                               ConnectionState.done) {
                             if (snapshot.hasData) {
                               return AlertDialog(
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(32.0))),
                                 scrollable: true,
-                                title: Center(child: Text('Update Device ID')),
+                                title: const Center(
+                                    child: Text('Update Device ID')),
                                 content: SingleChildScrollView(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -723,7 +727,7 @@ class _HomePageState extends State<HomePage> {
                                             // foreground (text) color
                                           ),
                                         ),
-                                        child: Text("Submit"),
+                                        child: const Text("Submit"),
                                         onPressed: () async {
                                           int response = await updateDeviceID(
                                               _controller_deviceID_update.text);
@@ -760,26 +764,10 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   width: 220,
                   height: 120,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/edit.svg",
-                          height: 50.0,
-                          width: 50.0,
-                        ),
-                        Text(
-                          'Edit Device',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ]),
                   decoration: BoxDecoration(
                     color: backgroundColor,
                     borderRadius: BorderRadius.circular(21),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
@@ -789,19 +777,35 @@ class _HomePageState extends State<HomePage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xffffffff),
+                        color: const Color(0xffffffff),
                         offset: distance2,
                         blurRadius: blur2,
                         inset: isPressed1,
                       ),
                       BoxShadow(
-                        color: Color(0xffcbcaca),
+                        color: const Color(0xffcbcaca),
                         offset: distance2,
                         blurRadius: blur2,
                         inset: isPressed1,
                       ),
                     ],
                   ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/icons/edit.svg",
+                          height: 50.0,
+                          width: 50.0,
+                        ),
+                        const Text(
+                          'Edit Device',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ]),
                 ),
               ),
             ),
@@ -812,7 +816,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget loadingIndicator() {
-    return Scaffold(
+    return const Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
         child: SpinKitDoubleBounce(
