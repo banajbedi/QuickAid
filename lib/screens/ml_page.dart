@@ -18,7 +18,7 @@ class _MLPageState extends State<MLPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE7ECEF),
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Colors.black87,
@@ -29,9 +29,26 @@ class _MLPageState extends State<MLPage> {
                   builder: (context) => HomePage(token: widget.token)));
         }),
         title: const Text(
-          '\tML Page',
+          'ML Page',
           style: TextStyle(
               fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          color: Colors.grey[800],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // ignore: sized_box_for_whitespace
+              Container(
+                height: 200,
+                width: 200,
+                child: Image.asset('assets/logo.png'),
+              )
+            ],
+          ),
         ),
       ),
     );
