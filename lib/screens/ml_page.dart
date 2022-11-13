@@ -56,21 +56,28 @@ class _MLPageState extends State<MLPage> {
               if (!mlRunning)
                 Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        mlRunning = true;
-                        Fluttertoast.showToast(
-                            msg: "SUCCESS!\nML model service STARTED.",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            fontSize: 16.0);
-                        setState(() {});
-                      },
-                      style: ElevatedButton.styleFrom(primary: Colors.teal),
-                      child: const Text("START QuickAid"),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 70,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          mlRunning = true;
+                          Fluttertoast.showToast(
+                              msg: "SUCCESS!\nML model service STARTED.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.white,
+                              textColor: Colors.black,
+                              fontSize: 16.0);
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.teal),
+                        child: const Text(
+                          "START QuickAid",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 50,
@@ -80,21 +87,30 @@ class _MLPageState extends State<MLPage> {
               else
                 Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        mlRunning = false;
-                        Fluttertoast.showToast(
-                            msg: "ML model service STOPPED.",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            fontSize: 16.0);
-                        setState(() {});
-                      },
-                      style: ElevatedButton.styleFrom(primary: Colors.teal),
-                      child: const Text("STOP QuickAid"),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 70,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          mlRunning = false;
+                          Fluttertoast.showToast(
+                              msg: "ML model service STOPPED.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.white,
+                              textColor: Colors.black,
+                              fontSize: 16.0);
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.teal),
+                        child: const Center(
+                          child: Text(
+                            "STOP QuickAid",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
