@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'home_page.dart';
+import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
 class MLPage extends StatefulWidget {
   final String? token;
@@ -13,9 +14,40 @@ class MLPage extends StatefulWidget {
 
 class _MLPageState extends State<MLPage> {
   bool mlRunning = false;
+  bool accidentDetected = false;
+  late final interpreter;
 
   @override
-  void initState() {}
+  initState() {
+    getModel();
+    super.initState();
+  }
+
+  getModel() async {
+    interpreter = await tfl.Interpreter.fromAsset('tensorflow_model.tflite');
+  }
+
+  runModel() async {
+    var input = [
+      [
+        -6.70260774e-01,
+        -9.11243139e-01,
+        2.90025806e-01,
+        -6.20421507e-02,
+        -3.52169650e-01,
+        -6.61411915e-01
+      ]
+    ];
+
+    // if output tensor shape [1,2] and type is float32
+    var output = List.filled(1, 0).reshape([-1, 1]);
+
+    // inference
+    await interpreter.run(input, output);
+
+    // print the output
+    print(output);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +102,7 @@ class _MLPageState extends State<MLPage> {
                               backgroundColor: Colors.white,
                               textColor: Colors.black,
                               fontSize: 16.0);
+                          // runModel();
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
@@ -112,8 +145,15 @@ class _MLPageState extends State<MLPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 50,
+                    ),
                   ],
                 ),
+              Text(
+                "Accident Detected : $accidentDetected",
+                style: const TextStyle(color: Colors.white),
+              ),
             ],
           ),
         ),
