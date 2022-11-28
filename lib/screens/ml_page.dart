@@ -70,6 +70,18 @@ class _MLPageState extends State<MLPage> {
                               backgroundColor: Colors.white,
                               textColor: Colors.black,
                               fontSize: 16.0);
+<<<<<<< Updated upstream
+=======
+
+                          data = await runModel();
+                          var decodedData = jsonDecode(data);
+                          output = decodedData['output'];
+                          print(output);
+
+                          if (output == '1') {
+                            accidentDetected = true;
+                          }
+>>>>>>> Stashed changes
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
