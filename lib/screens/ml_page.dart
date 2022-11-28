@@ -13,9 +13,29 @@ class MLPage extends StatefulWidget {
 
 class _MLPageState extends State<MLPage> {
   bool mlRunning = false;
+  bool accidentDetected = false;
+  String url = '';
+  var data;
+  var output;
 
   @override
-  void initState() {}
+  initState() {
+    super.initState();
+  }
+
+  fetchData(String url) async {
+    http.Response response = await http.get(Uri.parse(url));
+    return response.body;
+  }
+
+  runModel() async {
+    var ax = -14.9, ay = -34.5, az = 18.4, gx = -0.1, gy = -0.3, gz = 0.3;
+
+    url =
+        'http://banajbedi.pythonanywhere.com/api?ax=$ax&ay=$ay&az=$az&gx=$gx&gy=$gy&gz=$gz';
+
+    return fetchData(url);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +80,7 @@ class _MLPageState extends State<MLPage> {
                       width: double.infinity,
                       height: 70,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           mlRunning = true;
                           Fluttertoast.showToast(
                               msg: "SUCCESS!\nML model service STARTED.",
@@ -70,6 +90,14 @@ class _MLPageState extends State<MLPage> {
                               backgroundColor: Colors.white,
                               textColor: Colors.black,
                               fontSize: 16.0);
+                          data = await runModel();
+                          var decodedData = jsonDecode(data);
+                          output = decodedData['output'];
+                          print(output);
+
+                          if (output == '1') {
+                            accidentDetected = true;
+                          }
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
@@ -93,6 +121,7 @@ class _MLPageState extends State<MLPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           mlRunning = false;
+                          accidentDetected = false;
                           Fluttertoast.showToast(
                               msg: "ML model service STOPPED.",
                               toastLength: Toast.LENGTH_SHORT,
@@ -112,8 +141,15 @@ class _MLPageState extends State<MLPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 50,
+                    ),
                   ],
                 ),
+              Text(
+                "Accident Detected : $accidentDetected",
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ],
           ),
         ),
