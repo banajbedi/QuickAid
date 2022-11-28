@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'home_page.dart';
-import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
 class MLPage extends StatefulWidget {
   final String? token;
@@ -15,38 +14,27 @@ class MLPage extends StatefulWidget {
 class _MLPageState extends State<MLPage> {
   bool mlRunning = false;
   bool accidentDetected = false;
-  late final interpreter;
+  String url = '';
+  var data;
+  var output;
 
   @override
   initState() {
-    getModel();
     super.initState();
   }
 
-  getModel() async {
-    interpreter = await tfl.Interpreter.fromAsset('tensorflow_model.tflite');
+  fetchData(String url) async {
+    http.Response response = await http.get(Uri.parse(url));
+    return response.body;
   }
 
   runModel() async {
-    var input = [
-      [
-        -6.70260774e-01,
-        -9.11243139e-01,
-        2.90025806e-01,
-        -6.20421507e-02,
-        -3.52169650e-01,
-        -6.61411915e-01
-      ]
-    ];
+    var ax = -14.9, ay = -34.5, az = 18.4, gx = -0.1, gy = -0.3, gz = 0.3;
 
-    // if output tensor shape [1,2] and type is float32
-    var output = List.filled(1, 0).reshape([-1, 1]);
+    url =
+        'http://banajbedi.pythonanywhere.com/api?ax=$ax&ay=$ay&az=$az&gx=$gx&gy=$gy&gz=$gz';
 
-    // inference
-    await interpreter.run(input, output);
-
-    // print the output
-    print(output);
+    return fetchData(url);
   }
 
   @override
@@ -92,7 +80,7 @@ class _MLPageState extends State<MLPage> {
                       width: double.infinity,
                       height: 70,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           mlRunning = true;
                           Fluttertoast.showToast(
                               msg: "SUCCESS!\nML model service STARTED.",
@@ -102,7 +90,14 @@ class _MLPageState extends State<MLPage> {
                               backgroundColor: Colors.white,
                               textColor: Colors.black,
                               fontSize: 16.0);
-                          // runModel();
+                          data = await runModel();
+                          var decodedData = jsonDecode(data);
+                          output = decodedData['output'];
+                          print(output);
+
+                          if (output == '1') {
+                            accidentDetected = true;
+                          }
                           setState(() {});
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
@@ -126,6 +121,7 @@ class _MLPageState extends State<MLPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           mlRunning = false;
+                          accidentDetected = false;
                           Fluttertoast.showToast(
                               msg: "ML model service STOPPED.",
                               toastLength: Toast.LENGTH_SHORT,
@@ -152,7 +148,7 @@ class _MLPageState extends State<MLPage> {
                 ),
               Text(
                 "Accident Detected : $accidentDetected",
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
             ],
           ),
