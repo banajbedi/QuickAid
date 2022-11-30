@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   bool created_successfully = false;
   bool updated_successfully = false;
   late Future<UserData> futureData;
-
+  String device_ID = "";
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -283,7 +283,10 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => MLPage(token: widget.token)));
+                builder: (context) => MLPage(
+                      token: widget.token,
+                      deviceID_input: device_ID,
+                    )));
       }
       if (_selectedIndex == 3) {
         Navigator.pushReplacement(
@@ -570,6 +573,8 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         child: const Text("Submit"),
                                         onPressed: () async {
+                                          device_ID =
+                                              _controller_deviceID_create.text;
                                           int response = await createDeviceID(
                                               _controller_deviceID_create.text);
                                           Navigator.pop(context);
@@ -729,6 +734,8 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         child: const Text("Submit"),
                                         onPressed: () async {
+                                          device_ID =
+                                              _controller_deviceID_update.text;
                                           int response = await updateDeviceID(
                                               _controller_deviceID_update.text);
                                           Navigator.pop(context);
