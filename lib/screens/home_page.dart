@@ -441,12 +441,15 @@ class _HomePageState extends State<HomePage> {
             label: 'SOS',
             backgroundColor: Colors.white,
           ),
-          const BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage("assets/icons/tf.svg"),
-              ),
-              label: 'ML',
-              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              "assets/icons/tick.svg",
+              height: 30.0,
+              width: 30.0,
+              allowDrawingOutsideViewBox: false,
+            ),
+            label: 'Start',
+            backgroundColor: Colors.white,),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/contacts.svg",
