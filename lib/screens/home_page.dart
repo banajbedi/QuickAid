@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   late Position position;
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
+  String deviceID = "";
 
   checkGps() async {
     servicestatus = await Geolocator.isLocationServiceEnabled();
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/sendSOS/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/sendSOS/'));
     request.body = json.encode({"lat": "$lat", "long": "$long"});
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -149,8 +150,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<UserData> fetchUserData() async {
     var headers = {'Authorization': 'Bearer ${widget.token}'};
-    var request = http.Request('GET',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'GET', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = '''''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -183,8 +184,8 @@ class _HomePageState extends State<HomePage> {
       'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'POST', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = json.encode({
       "deviceID": "$new_deviceID",
     });
@@ -217,8 +218,8 @@ class _HomePageState extends State<HomePage> {
       'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'POST', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = json.encode({
       "deviceID": "$new_deviceID",
     });
@@ -283,7 +284,8 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => MLPage(token: widget.token)));
+                builder: (context) =>
+                    MLPage(token: widget.token, deviceID: deviceID)));
       }
       if (_selectedIndex == 3) {
         Navigator.pushReplacement(
@@ -449,7 +451,8 @@ class _HomePageState extends State<HomePage> {
               allowDrawingOutsideViewBox: false,
             ),
             label: 'Start',
-            backgroundColor: Colors.white,),
+            backgroundColor: Colors.white,
+          ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/contacts.svg",
@@ -573,6 +576,8 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         child: const Text("Submit"),
                                         onPressed: () async {
+                                          deviceID =
+                                              _controller_deviceID_create.text;
                                           int response = await createDeviceID(
                                               _controller_deviceID_create.text);
                                           Navigator.pop(context);
@@ -732,6 +737,8 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         child: const Text("Submit"),
                                         onPressed: () async {
+                                          deviceID =
+                                              _controller_deviceID_update.text;
                                           int response = await updateDeviceID(
                                               _controller_deviceID_update.text);
                                           Navigator.pop(context);

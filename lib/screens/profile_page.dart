@@ -33,10 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<UserData> fetchUserData() async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
-     };
-    var request = http.Request('GET',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+      'Authorization': 'Bearer ${widget.token}',
+    };
+    var request = http.Request(
+        'GET', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = '''''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -50,23 +50,22 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void showToast() => Fluttertoast.showToast(
-      msg: updated_successfully?"Updated Successfully":"Failed to Update",
+      msg: updated_successfully ? "Updated Successfully" : "Failed to Update",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.white,
       textColor: Colors.black,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 
   Future<int> updateUserData(String? new_firstName, String? new_lastName,
       String? new_email, String? new_mobile) async {
     var headers = {
-      'Authorization':'Bearer ${widget.token}',
+      'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('PUT',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'PUT', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = json.encode({
       "new_mobile": "$new_mobile",
       "new_firstName": "$new_firstName",
@@ -109,9 +108,11 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: BackButton(
                   // label: Text("Go Back"),
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (context) => HomePage(token: widget.token)));
-                  }),
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(token: widget.token)));
+              }),
               title: Center(
                   child: Text(
                 "Profile",
@@ -135,10 +136,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ConnectionState.done) {
                                       if (snapshot.hasData) {
                                         final formkey = GlobalKey<FormState>();
-                                        final TextEditingController _controller_email = TextEditingController()..text= "${snapshot.data!.email}";
-                                        final TextEditingController _controller_firstName = TextEditingController()..text= "${snapshot.data!.firstName}";
-                                        final TextEditingController _controller_lastName = TextEditingController()..text= "${snapshot.data!.lastName}";
-                                        final TextEditingController _controller_mobile = TextEditingController()..text= "${snapshot.data!.mobile}";
+                                        final TextEditingController
+                                            _controller_email =
+                                            TextEditingController()
+                                              ..text =
+                                                  "${snapshot.data!.email}";
+                                        final TextEditingController
+                                            _controller_firstName =
+                                            TextEditingController()
+                                              ..text =
+                                                  "${snapshot.data!.firstName}";
+                                        final TextEditingController
+                                            _controller_lastName =
+                                            TextEditingController()
+                                              ..text =
+                                                  "${snapshot.data!.lastName}";
+                                        final TextEditingController
+                                            _controller_mobile =
+                                            TextEditingController()
+                                              ..text =
+                                                  "${snapshot.data!.mobile}";
                                         return AlertDialog(
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.all(
@@ -148,7 +165,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                               child: Text('Update Details')),
                                           content: SingleChildScrollView(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Form(
                                                 key: formkey,
                                                 child: Column(
@@ -162,21 +180,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                 : "")),
                                                     TextFormField(
                                                       validator: (value) {
-                                                        RegExp regex = new RegExp(r'^.{3,}$');
+                                                        RegExp regex =
+                                                            new RegExp(
+                                                                r'^.{3,}$');
                                                         if (value!.isEmpty) {
                                                           return ("First Name cannot be Empty");
                                                         }
-                                                        if (!regex.hasMatch(value)) {
+                                                        if (!regex
+                                                            .hasMatch(value)) {
                                                           return ("Enter Valid name(Min. 3 Character)");
                                                         }
                                                         return null;
                                                       },
                                                       onSaved: (value) {
-                                                        _controller_firstName.text = value!;
+                                                        _controller_firstName
+                                                            .text = value!;
                                                       },
                                                       controller:
                                                           _controller_firstName,
-                                                      decoration: InputDecoration(
+                                                      decoration:
+                                                          InputDecoration(
                                                         labelText: 'First Name',
                                                         icon: SvgPicture.asset(
                                                           "assets/icons/person.svg",
@@ -195,11 +218,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         return null;
                                                       },
                                                       onSaved: (value) {
-                                                        _controller_lastName.text = value!;
+                                                        _controller_lastName
+                                                            .text = value!;
                                                       },
                                                       controller:
                                                           _controller_lastName,
-                                                      decoration: InputDecoration(
+                                                      decoration:
+                                                          InputDecoration(
                                                         labelText: 'Last Name',
                                                         icon: SvgPicture.asset(
                                                           "assets/icons/transparent.svg",
@@ -213,7 +238,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     TextFormField(
                                                       controller:
                                                           _controller_mobile,
-                                                      decoration: InputDecoration(
+                                                      decoration:
+                                                          InputDecoration(
                                                         labelText: 'Mobile No',
                                                         icon: SvgPicture.asset(
                                                           "assets/icons/phone.svg",
@@ -230,18 +256,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           return ("Please Enter Your Email");
                                                         }
                                                         // reg expression for email validation
-                                                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                                        if (!RegExp(
+                                                                "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                                             .hasMatch(value)) {
                                                           return ("Please Enter a valid email");
                                                         }
                                                         return null;
                                                       },
                                                       onSaved: (value) {
-                                                        _controller_email.text = value!;
+                                                        _controller_email.text =
+                                                            value!;
                                                       },
                                                       controller:
                                                           _controller_email,
-                                                      decoration: InputDecoration(
+                                                      decoration:
+                                                          InputDecoration(
                                                         labelText: 'Email Id',
                                                         icon: SvgPicture.asset(
                                                           "assets/icons/email.svg",
@@ -285,24 +314,31 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   ),
                                                   child: Text("Submit"),
                                                   onPressed: () async {
-if(formkey.currentState!.validate())
-    {int response = await updateUserData(
-    _controller_firstName
-        .text,
-    _controller_lastName
-        .text,
-    _controller_email
-        .text,
-    _controller_mobile
-        .text);
-    // setState(() {
-    //   // futureData = fetchUserData();
-    //
-    // });
-    Navigator.pop(context);
-    Navigator.pop(context);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
-    }// Navigator.pushReplacement(
+                                                    if (formkey.currentState!
+                                                        .validate()) {
+                                                      int response =
+                                                          await updateUserData(
+                                                              _controller_firstName
+                                                                  .text,
+                                                              _controller_lastName
+                                                                  .text,
+                                                              _controller_email
+                                                                  .text,
+                                                              _controller_mobile
+                                                                  .text);
+                                                      // setState(() {
+                                                      //   // futureData = fetchUserData();
+                                                      //
+                                                      // });
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ProfilePage(
+                                                                      token: widget
+                                                                          .token)));
+                                                    } // Navigator.pushReplacement(
                                                     //     context, MaterialPageRoute(builder: (context) => ProfilePage(token: widget.token)));
                                                   }),
                                             )
@@ -382,8 +418,10 @@ if(formkey.currentState!.validate())
                                                 style: HeadStyle),
                                             Flexible(
                                               child: Container(
-                                                child: Text("${snapshot.data!.firstName}",
-                                                    overflow: TextOverflow.ellipsis,
+                                                child: Text(
+                                                    "${snapshot.data!.firstName}",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: InfoStyle),
                                               ),
                                             )
@@ -414,9 +452,11 @@ if(formkey.currentState!.validate())
                                                 style: HeadStyle),
                                             Flexible(
                                               child: Container(
-                                              child:Text("${snapshot.data!.lastName}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: InfoStyle)),
+                                                  child: Text(
+                                                      "${snapshot.data!.lastName}",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: InfoStyle)),
                                             )
                                           ]),
                                         ),
@@ -440,11 +480,15 @@ if(formkey.currentState!.validate())
                                         padding: const EdgeInsets.all(8.0),
                                         child: Center(
                                           child: Row(children: [
-                                            Text("Mobile : ",overflow: TextOverflow.ellipsis, style: HeadStyle),
-                                            
+                                            Text("Mobile : ",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: HeadStyle),
                                             Flexible(
                                               child: Container(
-                                                child: Text("${snapshot.data!.mobile}",overflow: TextOverflow.ellipsis,
+                                                child: Text(
+                                                    "${snapshot.data!.mobile}",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: InfoStyle),
                                               ),
                                             )
@@ -477,7 +521,8 @@ if(formkey.currentState!.validate())
                                               child: Container(
                                                 child: Text(
                                                   "${snapshot.data!.email}",
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: InfoStyle,
                                                 ),
                                               ),
@@ -495,7 +540,9 @@ if(formkey.currentState!.validate())
                         child: Container(
                       margin: EdgeInsets.all(10),
                       child: Center(
-                          child: Text('${snapshot.error}', overflow: TextOverflow.ellipsis,style: HeadStyle)),
+                          child: Text('${snapshot.error}',
+                              overflow: TextOverflow.ellipsis,
+                              style: HeadStyle)),
                     ));
                   }
                   // By default, show a loading spinner.
@@ -520,6 +567,7 @@ if(formkey.currentState!.validate())
           Positioned(top: 85, child: buildProfileImage())
         ]);
   }
+
   Widget buildProfileImage() => CircleAvatar(
         radius: profileHeight / 2,
         backgroundColor: Colors.white,
@@ -535,7 +583,5 @@ if(formkey.currentState!.validate())
         ),
       ),
     );
-
-
   }
 }

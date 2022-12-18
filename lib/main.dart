@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MLPage(
-        token: "",
-      ),
-      // home: const LoginScreen(),
+      // home: MLPage(
+      //   token: "",
+      // ),
+      home: const LoginScreen(),
     );
   }
 }
