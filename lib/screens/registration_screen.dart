@@ -14,7 +14,7 @@ class RegistrationScreen extends StatefulWidget {
 Future<UserModel?> createUser(String? mobile, String? firstName,
     String? lastName, String? email, String? password) async {
   var headers = {'Content-Type': 'application/json'};
-
+  // print("hello");
   var request = http.Request('POST',
       Uri.parse('https://paras19sood.pythonanywhere.com/api/register/'));
   request.body = json.encode({
@@ -27,7 +27,7 @@ Future<UserModel?> createUser(String? mobile, String? firstName,
 
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
-
+  // print(response);
   if (response.statusCode == 200) {
     print("Success");
     print(await response.stream.bytesToString());
@@ -54,7 +54,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     //mobile number field
     var mobileNumberField = IntlPhoneField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Enter Phone Number',
         border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))
@@ -78,7 +78,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         controller: firstNameEditingController,
         keyboardType: TextInputType.name,
         validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
+          RegExp regex = RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
             return ("First Name cannot be Empty");
           }
