@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/sendSOS/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/sendSOS/'));
     request.body = json.encode({"lat": "$lat", "long": "$long"});
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -149,8 +149,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<UserData> fetchUserData() async {
     var headers = {'Authorization': 'Bearer ${widget.token}'};
-    var request = http.Request('GET',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'GET', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = '''''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -183,8 +183,8 @@ class _HomePageState extends State<HomePage> {
       'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'POST', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = json.encode({
       "deviceID": "$new_deviceID",
     });
@@ -217,8 +217,8 @@ class _HomePageState extends State<HomePage> {
       'Authorization': 'Bearer ${widget.token}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/user/'));
+    var request = http.Request(
+        'POST', Uri.parse('https://paras19sood.pythonanywhere.com/api/user/'));
     request.body = json.encode({
       "deviceID": "$new_deviceID",
     });

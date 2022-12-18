@@ -71,7 +71,7 @@ class _ContactPageState extends State<ContactPage> {
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/contacts/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/contacts/'));
     request.body = json.encode({
       "mobile": "$mobileNumber",
       "name": "$name",
@@ -105,7 +105,7 @@ class _ContactPageState extends State<ContactPage> {
       'Content-Type': 'application/json'
     };
     var request = http.Request('PUT',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/contacts/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/contacts/'));
     request.body = json.encode({
       "mobile": "$mobileNumber",
       "new_mobile": "$newMobileNumber",
@@ -140,7 +140,7 @@ class _ContactPageState extends State<ContactPage> {
       'Content-Type': 'application/json'
     };
     var request = http.Request('DELETE',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/contacts/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/contacts/'));
     request.body = json.encode({
       "mobile": "$mobileNumber",
     });
@@ -167,7 +167,7 @@ class _ContactPageState extends State<ContactPage> {
       'Authorization': 'Bearer ${widget.token}',
     };
     var request = http.Request('GET',
-        Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/contacts/'));
+        Uri.parse('https://paras19sood.pythonanywhere.com/api/contacts/'));
     request.body = '''''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

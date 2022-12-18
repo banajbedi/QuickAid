@@ -11,48 +11,44 @@ class RegistrationScreen extends StatefulWidget {
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-Future<UserModel?> createUser(String? mobile, String? firstName, String? lastName, String? email, String? password) async {
+Future<UserModel?> createUser(String? mobile, String? firstName,
+    String? lastName, String? email, String? password) async {
+  var headers = {'Content-Type': 'application/json'};
 
-  var headers={
-    'Content-Type':'application/json'
-  };
-
-  var request = http.Request('POST',Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/register/'));
-  request.body=json.encode({
-    "mobile":mobile,
-    "firstName":firstName,
-    "lastName":lastName,
-    "email":email,
-    "password":password
+  var request = http.Request('POST',
+      Uri.parse('https://paras19sood.pythonanywhere.com/api/register/'));
+  request.body = json.encode({
+    "mobile": mobile,
+    "firstName": firstName,
+    "lastName": lastName,
+    "email": email,
+    "password": password
   });
 
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
 
-  if(response.statusCode==200)
-  {
+  if (response.statusCode == 200) {
     print("Success");
     print(await response.stream.bytesToString());
-  }
-  else
-  {
+  } else {
     print("Error");
     print(response.reasonPhrase);
   }
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   // our form key
   final _formKey = GlobalKey<FormState>();
 
   // editing Controller
-  TextEditingController mobileNumberEditingController= TextEditingController();
-  TextEditingController firstNameEditingController =  TextEditingController();
-  TextEditingController secondNameEditingController =  TextEditingController();
-  TextEditingController emailEditingController =  TextEditingController();
-  TextEditingController passwordEditingController =  TextEditingController();
-  TextEditingController confirmPasswordEditingController =  TextEditingController();
+  TextEditingController mobileNumberEditingController = TextEditingController();
+  TextEditingController firstNameEditingController = TextEditingController();
+  TextEditingController secondNameEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
+  TextEditingController confirmPasswordEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +58,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         labelText: 'Enter Phone Number',
         border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0))
-          //borderSide: BorderSide(),
-        ),
+            //borderSide: BorderSide(),
+            ),
       ),
       initialCountryCode: 'IN',
       onChanged: (phone) {
@@ -81,7 +77,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         autofocus: false,
         controller: firstNameEditingController,
         keyboardType: TextInputType.name,
-
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
@@ -110,7 +105,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         autofocus: false,
         controller: secondNameEditingController,
         keyboardType: TextInputType.name,
-
         validator: (value) {
           if (value!.isEmpty) {
             return ("Last Name cannot be Empty");
@@ -135,7 +129,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         autofocus: false,
         controller: emailEditingController,
         keyboardType: TextInputType.emailAddress,
-
         validator: (value) {
           if (value!.isEmpty) {
             return ("Please Enter Your Email");
@@ -165,7 +158,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         autofocus: false,
         controller: passwordEditingController,
         obscureText: true,
-
         validator: (value) {
           RegExp regex = new RegExp(r'^.{6,}$');
           if (value!.isEmpty) {
@@ -193,7 +185,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         autofocus: false,
         controller: confirmPasswordEditingController,
         obscureText: true,
-
         validator: (value) {
           if (confirmPasswordEditingController.text !=
               passwordEditingController.text) {
@@ -221,21 +212,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       color: Colors.blueAccent,
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery
-              .of(context)
-              .size
-              .width,
-          onPressed: () async{
-            if(_formKey.currentState!.validate()){
-            //signUp(emailEditingController.text, passwordEditingController.text);\
-            String mobileNumberField = mobileNumberEditingController.text ;
-            String firstNameField = firstNameEditingController.text ;
-            String secondNameField = secondNameEditingController.text ;
-            String emailField = emailEditingController.text;
-            String passwordField = passwordEditingController.text;
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              //signUp(emailEditingController.text, passwordEditingController.text);\
+              String mobileNumberField = mobileNumberEditingController.text;
+              String firstNameField = firstNameEditingController.text;
+              String secondNameField = secondNameEditingController.text;
+              String emailField = emailEditingController.text;
+              String passwordField = passwordEditingController.text;
 
-            UserModel? data = await createUser(mobileNumberField,firstNameField,secondNameField,emailField,passwordField);
-            Navigator.of(context).pop();}
+              UserModel? data = await createUser(mobileNumberField,
+                  firstNameField, secondNameField, emailField, passwordField);
+              Navigator.of(context).pop();
+            }
           },
           child: Text(
             "SignUp",

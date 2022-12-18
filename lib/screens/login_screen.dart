@@ -6,7 +6,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:QuickAid/screens/registration_screen.dart';
 import 'home_page.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -14,18 +13,12 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-Future<String?> createUser(String? mobile,String? password) async
-{
-  var headers = {
-    'Content-Type': 'application/json'
-  };
+Future<String?> createUser(String? mobile, String? password) async {
+  var headers = {'Content-Type': 'application/json'};
 
-  var request = http.Request('POST',
-      Uri.parse('https://shrouded-castle-52205.herokuapp.com/api/login/'));
-  request.body = json.encode({
-    "mobile":mobile,
-    "password":password
-  });
+  var request = http.Request(
+      'POST', Uri.parse('https://paras19sood.pythonanywhere.com/api/login/'));
+  request.body = json.encode({"mobile": mobile, "password": password});
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   //Token storage
@@ -54,14 +47,11 @@ Future<String?> createUser(String? mobile,String? password) async
     // user.token = v2;
     // print(user.token);
     return v2;
-  }
-  else {
+  } else {
     print("Error!");
     print(response.reasonPhrase);
     throw Exception('Failed to Login');
-
   }
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -76,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
   get output => null;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -102,21 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'Enter Phone Number',
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))
-                        //borderSide: BorderSide(style: ),
-                        ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))
+                            //borderSide: BorderSide(style: ),
+                            ),
                       ),
                       initialCountryCode: 'IN',
                       onChanged: (phone) {
                         // print(phone.completeNumber);
-                        mobileNumberEditingController.text = phone.completeNumber;
+                        mobileNumberEditingController.text =
+                            phone.completeNumber;
                       },
                       onSaved: (value) {
                         mobileNumberEditingController.text = value! as String;
                       },
                       textInputAction: TextInputAction.next,
                     ),
-
                     SizedBox(height: 25),
                     TextFormField(
                         autofocus: false,
@@ -135,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           passwordEditingController.text = value!;
                         },
                         textInputAction: TextInputAction.done,
-
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.vpn_key),
                           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -151,28 +140,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.blueAccent,
                       child: MaterialButton(
                           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          minWidth: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          onPressed: () async{
-                            String? mobileNumberField = mobileNumberEditingController.text ;
-                            String? passwordField = passwordEditingController.text;
+                          minWidth: MediaQuery.of(context).size.width,
+                          onPressed: () async {
+                            String? mobileNumberField =
+                                mobileNumberEditingController.text;
+                            String? passwordField =
+                                passwordEditingController.text;
                             // print(mobileNumberField);
-                            String? v2 = await createUser(mobileNumberField,passwordField);
+                            String? v2 = await createUser(
+                                mobileNumberField, passwordField);
                             print("Login Success!");
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomePage(token: v2)));
+                                    builder: (context) => HomePage(token: v2)));
                           },
-
                           child: Text(
                             "Login",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           )),
                     ),
                     SizedBox(height: 15),
@@ -205,16 +194,22 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-
   }
+
   void checkPreviousSessionAndRedirect() async {
     final storage = new FlutterSecureStorage();
     String? v2 = await storage.read(key: 'QuickAid_JWT');
 
-    if(v2!=null){
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage(token: v2,)));
+    if (v2 != null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    token: v2,
+                  )));
     }
   }
+
   void initState() {
     super.initState();
     checkPreviousSessionAndRedirect();
