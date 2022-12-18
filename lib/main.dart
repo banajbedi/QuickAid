@@ -19,8 +19,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      // home: MLPage(token: "",),
-      home: const LoginScreen(),
+      home: MLPage(
+        token: "",
+      ),
+      // home: const LoginScreen(),
     );
   }
 }
@@ -96,9 +98,7 @@ class _TestState extends State<Test> {
           TextButton(
               onPressed: () async {
                 handleTimeout();
-                toSend=false;
-
-
+                toSend = false;
               },
               child: Center(
                 child: Container(
@@ -120,7 +120,9 @@ class _TestState extends State<Test> {
               )),
         ],
       );
-    };
+    }
+
+    ;
 
     return SafeArea(
       child: Scaffold(
@@ -132,7 +134,7 @@ class _TestState extends State<Test> {
               onPressed: () {
                 setState(() async {
                   int counter = 10;
-                  toSend=true;
+                  toSend = true;
                   player.play(AssetSource('sounds/sound.m4a'));
                   Timer.periodic(const Duration(seconds: 1), (timer) {
                     setState(() {
@@ -140,15 +142,16 @@ class _TestState extends State<Test> {
                       print(x);
                     });
                     counter--;
-                    if(!toSend || counter==0){
+                    if (!toSend || counter == 0) {
                       print('Cancel timer');
                       timer.cancel();
-                      if(counter==0) handleTimeout();
+                      if (counter == 0) handleTimeout();
                       player.stop();
                     }
                   });
-                  showDialog(context: context, builder: (ctx) => AlertBox()).then((val){
-                    toSend=false;
+                  showDialog(context: context, builder: (ctx) => AlertBox())
+                      .then((val) {
+                    toSend = false;
                   });
                 });
               },
