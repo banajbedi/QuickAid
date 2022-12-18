@@ -12,12 +12,8 @@ import 'package:QuickAid/screens/home_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'package:intl/intl.dart';
 import '../model/profile_format.dart';
-import 'contact_page.dart';
-import 'login_screen.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MLPage extends StatefulWidget {
@@ -38,7 +34,9 @@ class _MLPageState extends State<MLPage> {
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
   double posX = 0, posY = 300;
   bool _flag = false; //Tells about button
+
   String? message;
+
   //Variables for position
   bool servicestatus = false;
   bool haspermission = false;
@@ -46,6 +44,7 @@ class _MLPageState extends State<MLPage> {
   late Position position;
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
+
   bool created_successfully = false;
   bool updated_successfully = false;
   late Future<UserData> futureData;
@@ -55,6 +54,7 @@ class _MLPageState extends State<MLPage> {
   String? time;
 
   bool mlRunning = false;
+  bool mlRunning2 = false;
   bool accidentDetected = false;
   String url = '';
   var data;
@@ -93,18 +93,6 @@ class _MLPageState extends State<MLPage> {
     super.initState();
   }
 
-  // fetchData(String url) async {
-  //   http.Response response = await http.get(Uri.parse(url));
-  //   return response.body;
-  // }
-
-  // runModel() async {
-  //   var ax = -14.9, ay = -34.5, az = 18.4, gx = -0.1, gy = -0.3, gz = 0.3;
-  //   url =
-  //       'http://banajbedi.pythonanywhere.com/api?ax=$ax&ay=$ay&az=$az&gx=$gx&gy=$gy&gz=$gz';
-  //   return fetchData(url);
-  // }
-
   //DATE AND TIME FUNCTIONS
   getDateTime() {
     date = DateFormat("yyyy-MM-dd").format(DateTime.now());
@@ -114,7 +102,7 @@ class _MLPageState extends State<MLPage> {
   postData(var data_list) async {
     try {
       var response = await http.post(
-        Uri.parse("https://paras19sood.pythonanywhere.com/api/"),
+        Uri.parse("https://paras19sood.pythonanywhere.com/"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(data_list),
       );
@@ -175,6 +163,8 @@ class _MLPageState extends State<MLPage> {
           ?.map((double v) => v.toStringAsFixed(1))
           .toList();
 
+      // print(gyroscope);
+      // print(userAccelerometer);
       getDateTime();
       await getLocation();
       var a1 = double.parse(userAccelerometer![0]);
@@ -201,7 +191,7 @@ class _MLPageState extends State<MLPage> {
       if (await data_list.length == 4) {
         //print(data_list);
         //CALL postData
-        postData(data_list);
+        // postData(data_list);
         data_list.clear();
       }
     }
@@ -334,15 +324,15 @@ class _MLPageState extends State<MLPage> {
         ?.map((double v) => v.toStringAsFixed(1))
         .toList();
 
-    // if (mlRunning) {
-    //   getData();
-    //   // var response = checkData();
-    //   if (message == "Accident") {
-    //     accidentDetected = true;
-    //   } else {
-    //     accidentDetected = false;
-    //   }
-    // }
+    if (mlRunning) {
+      getData();
+      //   // var response = checkData();
+      //   if (message == "Accident") {
+      //     accidentDetected = true;
+      //   } else {
+      //     accidentDetected = false;
+      //   }
+    }
 
     Widget AlertBox() {
       return AlertDialog(
@@ -417,7 +407,6 @@ class _MLPageState extends State<MLPage> {
       );
     }
 
-    ;
     void _onPress() {
       int counter = 10;
       toSend = true;
@@ -460,7 +449,7 @@ class _MLPageState extends State<MLPage> {
         title: const Text(
           'Start Device',
           style: TextStyle(
-              fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
@@ -480,7 +469,7 @@ class _MLPageState extends State<MLPage> {
               // child: Image.asset('assets/icons/device.svg'),
               // ),
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
 
               if (!mlRunning)
@@ -509,7 +498,7 @@ class _MLPageState extends State<MLPage> {
                           // print(output);
                           // postData();
                           // if (output == '1') {
-                          accidentDetected = true;
+                          // accidentDetected = true;
                           // }
                           setState(() {});
                         },
@@ -549,6 +538,83 @@ class _MLPageState extends State<MLPage> {
                         child: const Center(
                           child: Text(
                             "STOP QuickAid (S)",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                ),
+
+              if (!mlRunning2)
+                Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 70,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          to_call = true;
+                          x = 10;
+                          accidentDetected = false;
+                          mlRunning2 = true;
+                          Fluttertoast.showToast(
+                              msg: "SUCCESS!\nML model service STARTED.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                          // data = await runModel();
+                          // var decodedData = jsonDecode(data);
+                          // output = decodedData['output'];
+                          // print(output);
+                          // postData();
+                          // if (output == '1') {
+                          // accidentDetected = true;
+                          // }
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.teal),
+                        child: const Text(
+                          "START QuickAid (H)",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                )
+              else
+                Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 70,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          mlRunning2 = false;
+                          accidentDetected = false;
+                          Fluttertoast.showToast(
+                              msg: "ML model service STOPPED.",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                          setState(() {});
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.teal),
+                        child: const Center(
+                          child: Text(
+                            "STOP QuickAid (H)",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
