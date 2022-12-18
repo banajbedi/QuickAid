@@ -504,8 +504,9 @@ class _MLPageState extends State<MLPage> {
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
                         child: const Text(
-                          "START QuickAid (S)",
+                          "START QuickAid on mobile",
                           style: TextStyle(color: Colors.white, fontSize: 20),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -537,8 +538,9 @@ class _MLPageState extends State<MLPage> {
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
                         child: const Center(
                           child: Text(
-                            "STOP QuickAid (S)",
+                            "STOP QuickAid on mobile",
                             style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
@@ -581,8 +583,9 @@ class _MLPageState extends State<MLPage> {
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
                         child: const Text(
-                          "START QuickAid (H)",
+                          "START QuickAid on Hardware",
                           style: TextStyle(color: Colors.white, fontSize: 20),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -614,8 +617,9 @@ class _MLPageState extends State<MLPage> {
                         style: ElevatedButton.styleFrom(primary: Colors.teal),
                         child: const Center(
                           child: Text(
-                            "STOP QuickAid (H)",
+                            "STOP QuickAid on Hardware",
                             style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
