@@ -1,7 +1,7 @@
 # QuickAid
 Flutter-based mobile application for Accident Detection System.
 
-# Description
+## Description
 An intuitive application, using which users can register themselves with our Accident Detection System and add their emergency contacts to our server. In case, the user’s vehicle meets an accident, an alert will be sent to nearby authorities and the emergency contacts registered through the application will be notified.
  
 ## UI
